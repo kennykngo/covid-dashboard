@@ -8,27 +8,15 @@ import "./App.css";
 function App() {
   const api_key = "50f2acf0397f4fa3b589ec44fb843786";
 
-  const [data, setData] = useState(
-    Promise.all([
-      d3.json("https://covid19-api.org/api/timeline"),
-      d3.json(
-        `https://api.covidactnow.org/v2/states.json?apiKey=50f2acf0397f4fa3b589ec44fb843786`
-      ),
-    ]).then(([props, propsTwo]) => {
-      console.log(props);
-      // console.log(propsTwo);
+  const [data, setData] = useState([]);
 
-      const stateCases = propsTwo.reduce((acc, d) => {
-        acc[d["state"]] = d;
-        // console.log(d.actuals.cases);
-        return acc;
-      }, {});
-
-      console.log(stateCases);
-      // return here
-      return { stateCases };
-    })
-  );
+  useEffect(() => {
+    let loaded = true;
+    LoadAndProcess().then((d) => {
+      loaded && setData(d);
+    });
+    return () => (loaded = false);
+  }, []);
 
   console.log(data);
   return (
