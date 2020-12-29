@@ -1,18 +1,11 @@
+import { LoadAndProcess } from "./loadAndProcess";
 import React, { useState, useEffect } from "react";
 import { BarChart } from "./components";
 import * as d3 from "d3";
 
-import LoadAndProcess from "./loadAndProcess.js";
-
 import "./App.css";
 
 function App() {
-  // useEffect(() => {
-  //   Promise.all([
-  //     d3.json("https://covid19-api.org/api/timeline"),
-  //   ]).then(([data]) => console.log(data));
-  // }, []);
-
   const api_key = "50f2acf0397f4fa3b589ec44fb843786";
 
   const [data, setData] = useState(
@@ -21,17 +14,23 @@ function App() {
       d3.json(
         `https://api.covidactnow.org/v2/states.json?apiKey=50f2acf0397f4fa3b589ec44fb843786`
       ),
-      d3.json(
-        `https://api.covidactnow.org/v2/state/CA.json?apiKey=50f2acf0397f4fa3b589ec44fb843786`
-      ),
-    ]).then(([props, propsTwo, propsThree]) => {
-      // console.log(json);
-      // console.log(csv);
+    ]).then(([props, propsTwo]) => {
       console.log(props);
-      console.log(propsTwo);
-      console.log(propsThree);
+      // console.log(propsTwo);
+
+      const stateCases = propsTwo.reduce((acc, d) => {
+        acc[d["state"]] = d;
+        // console.log(d.actuals.cases);
+        return acc;
+      }, {});
+
+      console.log(stateCases);
+      // return here
+      return { stateCases };
     })
   );
+
+  console.log(data);
   return (
     <div className="App">
       <BarChart data={data} />
@@ -40,3 +39,13 @@ function App() {
 }
 
 export default App;
+
+// let promiseData;
+
+// LoadAndProcess().then((loadedData) => {
+//   // promiseData = loadedData;
+//   promiseData = loadedData.stateCases;
+//   setData();
+// });
+
+// console.log(promiseData);

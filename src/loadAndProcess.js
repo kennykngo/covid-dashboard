@@ -1,16 +1,28 @@
 import * as d3 from "d3";
 import React, { useEffect, useRef, useState } from "react";
 
-// https://covid19-api.org/api/timeline
-// timeline
-let data;
-// ("https://covid19-api.org/api/status");
-d3.json("https://covid19-api.org/api/timeline").then((loadedData) => {
-  data = loadedData;
-  console.log(data);
-});
+export const LoadAndProcess = () =>
+  // ("https://covid19-api.org/api/status");
+  Promise.all([
+    d3.json("https://covid19-api.org/api/timeline"),
+    d3.json(
+      `https://api.covidactnow.org/v2/states.json?apiKey=50f2acf0397f4fa3b589ec44fb843786`
+    ),
+  ]).then(([props, propsTwo]) => {
+    console.log(props);
+    // console.log(propsTwo);
 
-export default function LoadAndProcess() {
-  const svgRef = useRef();
-  console.log(data);
-}
+    const stateCases = propsTwo.reduce((acc, d) => {
+      acc[d["state"]] = d;
+      // console.log(d.actuals.cases);
+      return acc;
+    }, {});
+
+    console.log(stateCases);
+    // return here
+    return { stateCases };
+  });
+
+// const globalCases = props.reduce((acc, d) => {
+//   // return acc;
+// }, {});
