@@ -27,13 +27,3 @@ function App() {
 }
 
 export default App;
-
-// let promiseData;
-
-// LoadAndProcess().then((loadedData) => {
-//   // promiseData = loadedData;
-//   promiseData = loadedData.stateCases;
-//   setData();
-// });
-
-// console.log(promiseData);

@@ -8,12 +8,15 @@ export default function BarChart({ data }) {
     const svg = d3.select(svgRef.current);
     console.log(data);
 
+    const xScale = d3.scaleTime().domain();
+
     // svg.selectAll(".bar").data(data).join("rect");
   }, [data]);
 
   return (
     <svg ref={svgRef}>
-      <g />
+      <g className="y-axis" />
+      <g className="x-axis" />
     </svg>
   );
 }
