@@ -15,11 +15,13 @@ const processData = (worldData, statesData) => {
     const date = dateParse(data.last_update);
     const totalCases = data.total_cases;
     const totalDeaths = data.total_deaths;
+    const totalRecovered = data.total_recovered;
 
     let row = {
       date,
       totalCases,
       totalDeaths,
+      totalRecovered,
     };
 
     worldArr.push(row);

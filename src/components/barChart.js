@@ -34,12 +34,12 @@ export default function BarChart({ props }) {
       .domain(
         [new Date(worldArr[0].date), new Date(worldArr[90].date)].reverse()
       )
-      .range([0, innerWidth]);
+      .range([innerWidth, 0]);
 
     const yScale = d3
       .scaleLinear()
       .domain(d3.extent(worldArr, yValue))
-      .range([0, innerHeight]);
+      .range([innerHeight, 0]);
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisRight(yScale);
@@ -50,15 +50,24 @@ export default function BarChart({ props }) {
       .merge(g)
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    const xAxisG = g.select(".x-axis");
+
+    const yAxisG = g.select(".y-axis");
+    const yAxisGEnter = gEnter.append("g").attr("class", "y-axis");
+    yAxisGEnter.merge(yAxisG).call(yAxis).selectAll(".domain").remove();
+
+    yAxisGEnter.append("text").attr("class", "axis-label");
+
     // svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
     // svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
 
-    svg
+    gEnter
       .selectAll("rect")
-      .data(worldArr)
+      .data(worldArr.reverse())
       .join("rect")
-      .attr("height", (d) => yValue(d))
-      .attr("width", 150)
+      .attr("height", (d) => yValue(d) / 10000)
+      .attr("x", (d, i) => 10 * i)
+      .attr("width", 2)
       .attr("fill", "black");
   }, [props]);
 
