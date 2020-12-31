@@ -11,6 +11,7 @@ export default function BarChart({ props }) {
 
   useEffect(() => {
     const { worldArr, statesArr } = props;
+
     console.log(worldArr);
     console.log(statesArr);
     const svg = d3.select(svgRef.current);

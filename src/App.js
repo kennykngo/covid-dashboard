@@ -8,22 +8,27 @@ import "./App.css";
 function App() {
   const api_key = "50f2acf0397f4fa3b589ec44fb843786";
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
 
-  console.log(data);
   useEffect(() => {
-    let loaded = true;
     LoadAndProcess().then((d) => {
-      loaded && setData(d);
+      setData(d);
     });
-    return () => (loaded = false);
   }, []);
 
   return (
     <div className="App">
-      <BarChart props={data} />
+      {data ? <BarChart props={data} /> : <h1>Loading...</h1>}
     </div>
   );
 }
 
 export default App;
+
+// useEffect(() => {
+//   loaded = true;
+//   LoadAndProcess().then(async (d) => {
+//     (await loaded) && setData(d);
+//   });
+//   return () => (loaded = true);
+// }, []);
