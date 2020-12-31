@@ -12,7 +12,8 @@ export default function BarChart({ props }) {
   useEffect(() => {
     const { worldArr, statesArr } = props;
 
-    console.log(worldArr);
+    const globalArr = worldArr.reverse();
+    console.log(globalArr);
     console.log(statesArr);
     const svg = d3
       .select(svgRef.current)
@@ -22,24 +23,24 @@ export default function BarChart({ props }) {
     const width = +svg.attr("width");
     const height = +svg.attr("height");
 
-    const margin = { top: 60, right: 280, bottom: 88, left: 105 };
+    const margin = { top: 60, right: 80, bottom: 88, left: 150 };
 
     const innerWidth = width - margin.left - margin.right;
     const innerHeight = height - margin.top - margin.bottom;
 
-    console.log(worldArr[0].date);
+    console.log(globalArr[0].date);
 
     const xScale = d3
       .scaleTime()
       .domain(
-        [new Date(worldArr[0].date), new Date(worldArr[90].date)].reverse()
+        [new Date(globalArr[0].date), new Date(globalArr[90].date)].reverse()
       )
       .range([innerWidth, 0]);
 
     const yScale = d3
       .scaleLinear()
-      .domain(d3.extent(worldArr, yValue))
-      .range([innerHeight, 0]);
+      .domain(d3.extent(globalArr, yValue))
+      .range([0, innerHeight]);
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisRight(yScale);
@@ -51,24 +52,51 @@ export default function BarChart({ props }) {
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const xAxisG = g.select(".x-axis");
+    const xAxisGEnter = gEnter.append("g").attr("class", "x-axis");
+    xAxisGEnter.merge(xAxisG).call(xAxis).selectAll(".domain").remove();
 
     const yAxisG = g.select(".y-axis");
     const yAxisGEnter = gEnter.append("g").attr("class", "y-axis");
     yAxisGEnter.merge(yAxisG).call(yAxis).selectAll(".domain").remove();
 
-    yAxisGEnter.append("text").attr("class", "axis-label");
+    yAxisGEnter
+      .append("text")
+      .attr("class", "axis-label")
+      .attr("y", -93)
+      .attr("transform", `rotate(-90)`)
+      .attr("fill", "black")
+      .attr("text-anchor", "middle")
+      .merge(yAxisG.select(".axis-label"))
+      .attr("x", -innerHeight / 2);
 
     // svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
     // svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
 
     gEnter
       .selectAll("rect")
-      .data(worldArr.reverse())
+      .data(globalArr)
       .join("rect")
-      .attr("height", (d) => yValue(d) / 10000)
-      .attr("x", (d, i) => 10 * i)
+      .attr("height", (d) => yValue(d) / 100000)
+      .attr("x", (d, i) => 2 * i)
       .attr("width", 2)
-      .attr("fill", "black");
+      .attr("fill", "black")
+      .on("mouseenter", function (e, value) {
+        const index = svg.selectAll("rect").nodes().indexOf(this);
+
+        gEnter
+          .selectAll(".tooltip")
+          .data([value])
+          // by converting the "text" to a callback functino, you're able to have the value slowly come up
+          .join((enter) => enter.append("text").attr("y", yScale(value)))
+          .attr("class", "tooltip")
+          .text(value.totalCases)
+          .attr("x", 150)
+          .attr("text-anchor", "middle")
+          .attr("y", 150)
+          .attr("opacity", 0.5);
+        console.log(value, index);
+      })
+      .on("mouseleave", () => svg.select(".tooltip").remove());
   }, [props]);
 
   return (
