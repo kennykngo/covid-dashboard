@@ -14,37 +14,56 @@ export default function BarChart({ props }) {
 
     console.log(worldArr);
     console.log(statesArr);
-    const svg = d3.select(svgRef.current);
+    const svg = d3
+      .select(svgRef.current)
+      .attr("height", 500)
+      .attr("width", 960);
 
     const width = +svg.attr("width");
-    const height = svg.attr("height");
+    const height = +svg.attr("height");
+
+    const margin = { top: 60, right: 280, bottom: 88, left: 105 };
+
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
 
     console.log(worldArr[0].date);
 
     const xScale = d3
       .scaleTime()
       .domain(
-        [new Date(worldArr[0].date), new Date(worldArr[120].date)].reverse()
+        [new Date(worldArr[0].date), new Date(worldArr[90].date)].reverse()
       )
-      .range([0, width]);
+      .range([0, innerWidth]);
 
     const yScale = d3
       .scaleLinear()
       .domain(d3.extent(worldArr, yValue))
-      .range([height, 0]);
+      .range([0, innerHeight]);
 
-    const xAxis = d3.axisBottom(xScale).tickPadding(20);
+    const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisRight(yScale);
 
-    svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
-    svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
+    const g = svg.selectAll(".container").data([null]);
+    const gEnter = g.enter().append("g").attr("class", "container");
+    gEnter
+      .merge(g)
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    svg.select("svg").attr("stroke", "black");
-    svg.selectAll(".bar").data(props).join("rect");
+    // svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
+    // svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
+
+    svg
+      .selectAll("rect")
+      .data(worldArr)
+      .join("rect")
+      .attr("height", (d) => yValue(d))
+      .attr("width", 150)
+      .attr("fill", "black");
   }, [props]);
 
   return (
-    <svg width="960" height="500" ref={svgRef}>
+    <svg ref={svgRef}>
       <g className="y-axis" />
       <g className="x-axis" />
     </svg>
