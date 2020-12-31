@@ -10,6 +10,7 @@ function App() {
 
   const [data, setData] = useState([]);
 
+  console.log(data);
   useEffect(() => {
     let loaded = true;
     LoadAndProcess().then((d) => {
