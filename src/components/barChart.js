@@ -12,7 +12,7 @@ export default function BarChart({ props }) {
   useEffect(() => {
     const { worldArr, statesArr } = props;
 
-    const globalArr = worldArr.slice(0, 90).reverse();
+    const globalArr = worldArr.slice(0, 90);
     console.log(globalArr);
     console.log(statesArr);
 
@@ -87,10 +87,10 @@ export default function BarChart({ props }) {
       .selectAll("rect")
       .data(globalArr)
       .join("rect")
-      .attr("height", (d) => yValue(d) / 100000)
-      .attr("x", (d, i) => i * 5)
-      //   .attr("x", (d) => xScale(xValue(d)))
-      .attr("width", 5)
+      .attr("height", (d) => yValue(d) / innerHeight)
+      .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
+      .attr("y", (d) => yScale(yValue(d)))
+      .attr("width", (d, i) => innerWidth / globalArr.length)
       .attr("fill", "black")
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
