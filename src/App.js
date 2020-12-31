@@ -18,7 +18,6 @@ function App() {
     return () => (loaded = false);
   }, []);
 
-  console.log(data);
   return (
     <div className="App">
       <BarChart props={data} />
