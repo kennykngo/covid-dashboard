@@ -12,9 +12,10 @@ export default function BarChart({ props }) {
   useEffect(() => {
     const { worldArr, statesArr } = props;
 
-    const globalArr = worldArr.reverse();
+    const globalArr = worldArr.slice(0, 90).reverse();
     console.log(globalArr);
     console.log(statesArr);
+
     const svg = d3
       .select(svgRef.current)
       .attr("height", 500)
@@ -33,7 +34,10 @@ export default function BarChart({ props }) {
     const xScale = d3
       .scaleTime()
       .domain(
-        [new Date(globalArr[0].date), new Date(globalArr[90].date)].reverse()
+        [
+          new Date(globalArr[0].date),
+          new Date(globalArr[globalArr.length - 1].date),
+        ].reverse()
       )
       .range([innerWidth, 0]);
 
@@ -59,6 +63,16 @@ export default function BarChart({ props }) {
     const yAxisGEnter = gEnter.append("g").attr("class", "y-axis");
     yAxisGEnter.merge(yAxisG).call(yAxis).selectAll(".domain").remove();
 
+    xAxisGEnter
+      .append("text")
+      .attr("class", "axis-label")
+      .attr("x", -93)
+      .attr("transform", `rotate(-90)`)
+      .attr("fill", "black")
+      .attr("text-anchor", "middle")
+      .merge(xAxisG.select(".axis-label"))
+      .attr("y", -innerWidth / 2);
+
     yAxisGEnter
       .append("text")
       .attr("class", "axis-label")
@@ -72,13 +86,13 @@ export default function BarChart({ props }) {
     // svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
     // svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
 
-    gEnter
+    xAxisGEnter
       .selectAll("rect")
       .data(globalArr)
       .join("rect")
       .attr("height", (d) => yValue(d) / 100000)
-      .attr("x", (d, i) => 2 * i)
-      .attr("width", 2)
+      .attr("x", (d, i) => 4 * i)
+      .attr("width", 4)
       .attr("fill", "black")
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
