@@ -21,11 +21,3 @@ function App() {
 }
 
 export default App;
-
-// useEffect(() => {
-//   loaded = true;
-//   LoadAndProcess().then(async (d) => {
-//     (await loaded) && setData(d);
-//   });
-//   return () => (loaded = true);
-// }, []);

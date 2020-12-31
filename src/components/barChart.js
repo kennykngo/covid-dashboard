@@ -20,15 +20,22 @@ export default function BarChart({ props }) {
     const screenWidth = svg.attr("width");
     const height = svg.attr("height");
     console.log(worldArr[0].date);
-    // const xScale = d3
-    //   .scaleTime()
-    //   .domain([new Date(worldArr[0].date), new Date(worldArr[120].date)]);
+
+    const xScale = d3
+      .scaleTime()
+      .domain([new Date(worldArr[0].date), new Date(worldArr[120].date)])
+      .range([0, 300]);
+
+    const yScale = d3
+      .scaleTime()
+      .domain(d3.extent(worldArr, yValue))
+      .range([0, 150]);
 
     // const xScale = d3
     //   .scaleTime()
     //   .domain(
     //     d3.extent(new Date(worldArr[0].date), new Date(worldArr[120].date))
-    //   )
+    //   );
     //   .range([0, 300]);
 
     svg.selectAll(".bar").data(props).join("rect");
