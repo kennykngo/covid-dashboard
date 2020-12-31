@@ -21,7 +21,7 @@ function App() {
   console.log(data);
   return (
     <div className="App">
-      <BarChart data={data} />
+      <BarChart props={data} />
     </div>
   );
 }

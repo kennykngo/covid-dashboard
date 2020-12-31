@@ -24,13 +24,31 @@ const processData = (worldData, statesData) => {
   });
   console.log(worldArr);
 
-  const stateCases = statesData.reduce((acc, d) => {
-    acc[d["state"]] = d;
+  // const stateCases = statesData.reduce((acc, d) => {
+  //   acc[d["state"]] = d;
 
-    return acc;
-  }, {});
+  //   return acc;
+  // }, {});
 
-  return { stateCases, worldArr };
+  const statesArr = [];
+  statesData.forEach((data) => {
+    const level = data.level;
+    const state = data.state;
+    const cases = data.actuals.cases;
+    const newCases = data.actuals.newCases;
+    const deaths = data.actuals.deaths;
+
+    let row = {
+      level,
+      state,
+      cases,
+      newCases,
+      deaths,
+    };
+    statesArr.push(row);
+  });
+
+  return { worldArr, statesArr };
 };
 
 export const LoadAndProcess = () =>
