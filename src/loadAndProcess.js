@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import statesName from "./states";
 
 export const formatDate = d3.timeFormat("%x");
 export const formatDay = d3.timeFormat("%j");
@@ -24,12 +25,7 @@ const processData = (worldData, statesData) => {
   });
   console.log(worldArr);
 
-  // const stateCases = statesData.reduce((acc, d) => {
-  //   acc[d["state"]] = d;
-
-  //   return acc;
-  // }, {});
-
+  // -------------------- statesArr section ----------------------
   const statesArr = [];
   statesData.forEach((data) => {
     const level = data.level;

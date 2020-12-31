@@ -1,24 +1,23 @@
 import React, { useRef, useEffect } from "react";
-import states from "../states";
+import statesName from "../states";
 import * as d3 from "d3";
 
 export default function BarChart({ props }) {
   console.log(props);
   const { worldArr, stateArr } = props;
 
-  console.log([states]);
+  console.log([statesName]);
 
-  console.log(worldArr, stateArr);
   const svgRef = useRef();
 
-  //   useEffect(() => {
-  //     const svg = d3.select(svgRef.current);
-  //     console.log(data);
+  useEffect(() => {
+    const svg = d3.select(svgRef.current);
+    console.log(props);
 
-  //     const xScale = d3.scaleTime().domain();
+    const xScale = d3.scaleTime().domain();
 
-  //     // svg.selectAll(".bar").data(data).join("rect");
-  //   }, [data]);
+    // svg.selectAll(".bar").data(props).join("rect");
+  }, [props]);
 
   return (
     <svg ref={svgRef}>
