@@ -67,7 +67,7 @@ export default function BarChart({ props }) {
       .append("text")
       .attr("class", "axis-label")
       .attr("x", -93)
-      .attr("transform", `rotate(-90)`)
+      .attr("transform", `rotate(90)`)
       .attr("fill", "black")
       .attr("text-anchor", "middle")
       .merge(xAxisG.select(".axis-label"))
@@ -77,22 +77,20 @@ export default function BarChart({ props }) {
       .append("text")
       .attr("class", "axis-label")
       .attr("y", -93)
-      .attr("transform", `rotate(-90)`)
+      .attr("transform", `rotate(90)`)
       .attr("fill", "black")
       .attr("text-anchor", "middle")
       .merge(yAxisG.select(".axis-label"))
       .attr("x", -innerHeight / 2);
 
-    // svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
-    // svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
-
-    xAxisGEnter
+    gEnter
       .selectAll("rect")
       .data(globalArr)
       .join("rect")
       .attr("height", (d) => yValue(d) / 100000)
-      .attr("x", (d, i) => 4 * i)
-      .attr("width", 4)
+      .attr("x", (d, i) => i * 5)
+      //   .attr("x", (d) => xScale(xValue(d)))
+      .attr("width", 5)
       .attr("fill", "black")
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
@@ -101,7 +99,14 @@ export default function BarChart({ props }) {
           .selectAll(".tooltip")
           .data([value])
           // by converting the "text" to a callback functino, you're able to have the value slowly come up
-          .join((enter) => enter.append("text").attr("y", yScale(value)))
+          .join((enter) =>
+            enter.append("text").attr("y", yScale(value)).style({
+              position: "absolute",
+              padding: "4px",
+              backgroundColor: "white",
+              zIndex: "999",
+            })
+          )
           .attr("class", "tooltip")
           .text(value.totalCases)
           .attr("x", 150)
