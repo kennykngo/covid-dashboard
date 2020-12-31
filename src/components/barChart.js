@@ -34,7 +34,7 @@ export default function BarChart({ props }) {
       .range([height, 0]);
 
     const xAxis = d3.axisBottom(xScale).tickPadding(20);
-    const yAxis = d3.axisLeft(yScale);
+    const yAxis = d3.axisRight(yScale);
 
     svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
     svg.select(".y-axis").style("transform", "translateX(300px)").call(yAxis);
