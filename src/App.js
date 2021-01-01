@@ -4,8 +4,8 @@ import { BarChart } from "./components";
 import "./App.css";
 
 function App() {
-  const tipRef = useRef();
   const [data, setData] = useState();
+  const svgRef = useRef();
 
   useEffect(() => {
     LoadAndProcess().then((d) => {

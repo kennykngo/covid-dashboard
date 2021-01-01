@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import "./__barChart.scss";
 import { PopperTip } from "./";
@@ -10,6 +10,7 @@ const Text = styled.text`
 `;
 
 export default function BarChart({ props }) {
+  const [tooltip, setTooltip] = useState(false);
   const svgRef = useRef();
   //   console.log(props);
 
@@ -88,38 +89,46 @@ export default function BarChart({ props }) {
       .merge(yAxisG.select(".axis-label"))
       .attr("x", -innerHeight / 2);
 
-    gEnter
-      .selectAll("rect")
-      .data(globalArr)
-      .join("rect")
-      .attr("height", (d) => yValue(d) / innerHeight)
-      .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
-      .attr("y", (d) => yScale(yValue(d)))
-      .attr("width", (d, i) => innerWidth / globalArr.length)
-      .attr("fill", "black")
-      .on("mouseenter", function (e, value) {
-        const index = svg.selectAll("rect").nodes().indexOf(this);
+    // gEnter
+    //   .selectAll("rect")
+    //   .data(globalArr)
+    //   .join("rect")
+    //   .attr("height", (d) => yValue(d) / innerHeight)
+    //   .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
+    //   .attr("y", (d) => yScale(yValue(d)))
+    //   .attr("width", (d, i) => innerWidth / globalArr.length)
+    //   .attr("fill", "black")
+    //   .on("mouseenter", function (e, value) {
+    //     const index = svg.selectAll("rect").nodes().indexOf(this);
 
-        gEnter
-          .selectAll(".tooltip")
-          .data([value])
-          .join((enter) => enter.append("Text").attr("y", yScale(value)))
-          .text(`${value.date} \n ${value.totalCases}`)
-          .attr("class", "tooltip")
-          .attr("x", () => (index * innerWidth) / globalArr.length)
-          .attr("y", yScale(yValue(value)) - 12)
-          .attr("text-anchor", "middle")
-          .attr("opacity", 0.5)
-          .style("background-color", "red");
-        console.log(value, index);
-      });
+    //     gEnter
+    //       .selectAll(".tooltip")
+    //       .data([value])
+    //       .join((enter) => enter.append("text").attr("y", yScale(value)))
+    //       .text(`${value.date} \n ${value.totalCases}`)
+    //       .attr("class", "tooltip")
+    //       .attr("x", () => (index * innerWidth) / globalArr.length)
+    //       .attr("y", yScale(yValue(value)) - 12)
+    //       .attr("text-anchor", "middle")
+    //       .attr("opacity", 0.5)
+    //       .style("background-color", "red");
+    //     console.log(value, index);
+    //   });
     // .on("mouseleave", () => svg.select(".tooltip").remove());
   }, [props]);
 
   return (
-    <svg ref={svgRef}>
-      <g className="y-axis" />
-      <g className="x-axis" />
-    </svg>
+    // <svg ref={svgRef}>
+    <g transform={`translate(${x}, ${y})`}>
+      {data.map((d) => (
+        <Rect
+          height={(d) => yValue(d) / innerHeight}
+          width={() => innerWidth / globalArr.length}
+        />
+      ))}
+    </g>
+    // <g className="y-axis" />
+    // <g className="x-axis" />
+    // </svg>
   );
 }
