@@ -12,7 +12,7 @@ export default function BarChart({ props }) {
   useEffect(() => {
     const { worldArr, statesArr } = props;
 
-    const globalArr = worldArr.slice(0, 90);
+    const globalArr = worldArr.slice(0, 90).reverse();
     console.log(globalArr);
     console.log(statesArr);
 
@@ -33,18 +33,16 @@ export default function BarChart({ props }) {
 
     const xScale = d3
       .scaleTime()
-      .domain(
-        [
-          new Date(globalArr[0].date),
-          new Date(globalArr[globalArr.length - 1].date),
-        ].reverse()
-      )
-      .range([innerWidth, 0]);
+      .domain([
+        new Date(globalArr[0].date),
+        new Date(globalArr[globalArr.length - 1].date),
+      ])
+      .range([0, innerWidth]);
 
     const yScale = d3
       .scaleLinear()
       .domain(d3.extent(globalArr, yValue))
-      .range([0, innerHeight]);
+      .range([innerHeight, 0]);
 
     const xAxis = d3.axisBottom(xScale);
     const yAxis = d3.axisRight(yScale);
@@ -99,14 +97,7 @@ export default function BarChart({ props }) {
           .selectAll(".tooltip")
           .data([value])
           // by converting the "text" to a callback functino, you're able to have the value slowly come up
-          .join((enter) =>
-            enter.append("text").attr("y", yScale(value)).style({
-              position: "absolute",
-              padding: "4px",
-              backgroundColor: "white",
-              zIndex: "999",
-            })
-          )
+          .join((enter) => enter.append("text").attr("y", yScale(value)))
           .attr("class", "tooltip")
           .text(value.totalCases)
           .attr("x", 150)
