@@ -15,7 +15,11 @@ function App() {
 
   return (
     <div className="App">
-      {data ? <BarChart props={data} /> : <h1>Loading...</h1>}
+      {data ? (
+        <BarChart ref={svgRef} props={data} x={0} y={0} />
+      ) : (
+        <h1>Loading...</h1>
+      )}
     </div>
   );
 }
