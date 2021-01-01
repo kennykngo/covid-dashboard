@@ -94,17 +94,23 @@ export default function BarChart({ props }) {
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
 
-        gEnter
-          .selectAll(".tooltip")
-          .data([value])
+        const [x, y] = d3.pointer(e);
+
+        let tooltip = gEnter.selectAll(".tooltip").data([value]);
+
+        tooltip
           .join((enter) => enter.append("text").attr("y", yScale(value)))
           .attr("class", "tooltip")
           .text(`${value.date} \n ${value.totalCases}`)
-          .attr("x", console.log(index))
+          // .attr("transform", `translate(${x}, ${y - 35})`)
+          .attr("x", () => (index * innerWidth) / globalArr.length)
           .attr("text-anchor", "middle")
-          .attr("y", yScale(value.totalCases))
+          .attr("y", yScale(yValue(value)))
+
           .attr("opacity", 0.5);
         console.log(value, index);
+
+        console.log(d3.pointer(e));
       })
       .on("mouseleave", () => svg.select(".tooltip").remove());
   }, [props]);
