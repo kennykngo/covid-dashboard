@@ -1,7 +1,13 @@
 import * as d3 from "d3";
 import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import "./__barChart.scss";
+import { PopperTip } from "./";
 
-import statesName from "../states";
+const Text = styled.text`
+  color: red;
+  backgroundcolor: black;
+`;
 
 export default function BarChart({ props }) {
   const svgRef = useRef();
@@ -105,12 +111,10 @@ export default function BarChart({ props }) {
           // .attr("transform", `translate(${x}, ${y - 35})`)
           .attr("x", () => (index * innerWidth) / globalArr.length)
           .attr("text-anchor", "middle")
-          .attr("y", yScale(yValue(value)))
+          .attr("y", yScale(yValue(value)) - 12)
 
           .attr("opacity", 0.5);
         console.log(value, index);
-
-        console.log(d3.pointer(e));
       })
       .on("mouseleave", () => svg.select(".tooltip").remove());
   }, [props]);
