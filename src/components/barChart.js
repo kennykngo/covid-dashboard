@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
-import statesName from "../states";
 import * as d3 from "d3";
+import React, { useEffect, useRef } from "react";
+
+import statesName from "../states";
 
 export default function BarChart({ props }) {
   const svgRef = useRef();
@@ -96,13 +97,12 @@ export default function BarChart({ props }) {
         gEnter
           .selectAll(".tooltip")
           .data([value])
-          // by converting the "text" to a callback functino, you're able to have the value slowly come up
           .join((enter) => enter.append("text").attr("y", yScale(value)))
           .attr("class", "tooltip")
-          .text(value.totalCases)
-          .attr("x", 150)
+          .text(`${value.date} \n ${value.totalCases}`)
+          .attr("x", console.log(index))
           .attr("text-anchor", "middle")
-          .attr("y", 150)
+          .attr("y", yScale(value.totalCases))
           .attr("opacity", 0.5);
         console.log(value, index);
       })
