@@ -22,7 +22,7 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
   const width = svgWidth;
   const height = svgHeight;
 
-  const margin = { top: 60, right: 80, bottom: 200, left: 150 };
+  const margin = { top: 60, right: 80, bottom: 80, left: 150 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -72,7 +72,7 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
     const xAxisGEnter = gEnter
       .append("g")
       .attr("class", "x-axis")
-      .attr("transform", `translate(0, ${innerHeight - 15})`);
+      .attr("transform", `translate(0, ${innerHeight - margin.bottom})`);
     xAxisGEnter.merge(xAxisG).call(xAxis).selectAll(".domain").remove();
 
     const yAxisG = g.select(".y-axis");
@@ -103,10 +103,11 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
       .selectAll("rect")
       .data(globalArr)
       .join("rect")
-      .attr("height", (d) => yValue(d) / innerHeight)
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .attr("y", (d) => yScale(yValue(d)))
       .attr("width", (d, i) => innerWidth / globalArr.length)
+      .attr("height", (d) => innerHeight - yScale(yValue(d)))
+      // .attr("height", (d) => console.log(yScale(yValue(d))))
       .attr("fill", "black")
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
