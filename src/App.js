@@ -16,7 +16,11 @@ function App() {
 
   return (
     <div className="App">
-      {data ? <BarChart props={data} x={100} y={100} /> : <h1>Loading...</h1>}
+      {data ? (
+        <BarChart svgWidth={960} svgHeight={500} props={data} x={100} y={100} />
+      ) : (
+        <h1>Loading...</h1>
+      )}
     </div>
   );
 }

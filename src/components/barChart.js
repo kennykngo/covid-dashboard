@@ -6,27 +6,30 @@ import "./__barChart.scss";
 
 const Rect = styled.rect`
   fill: red;
-  fill-opacity: 1;
+  fill-opacity: 0.5;
 `;
 
 // const BarChart = ({ props, forwardedRef, x, y }) => {
-export default function BarChart({ props, x, y }) {
+const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
   console.log(props);
-  const svgRef = useRef();
+  const svgRef = useRef(null);
+  const width = svgWidth;
+  const height = svgHeight;
 
-  console.log(svgRef);
+  const svg = d3.select(svgRef.current);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
 
-  console.log(svgRef.current);
+  console.log(svg);
 
   const yValue = (d) => d.totalCases;
   // const xValue = (d) => d.date;
 
   // const svg = d3.select(svgRef.current).attr("height", 500).attr("width", 960);
 
-  const width = 960;
-  const height = 500;
+  console.log(width, height);
+  // const width = 960;
+  // const height = 500;
 
   // const width = +svg.attr("width");
   // const height = +svg.attr("height");
@@ -141,31 +144,22 @@ export default function BarChart({ props, x, y }) {
   //     });
   //   // .on("mouseleave", () => svg.select(".tooltip").remove());
   // }, [props]);
+  const bars = globalArr.map((d, i) => (
+    <Rect
+      height={yValue(d) / innerHeight}
+      width={innerWidth / globalArr.length}
+      y={yScale(yValue(d))}
+      x={(i * innerWidth) / globalArr.length}
+    />
+  ));
 
   return (
-    <svg ref={svgRef} height={500} width={960}>
-      <g transform={`translate(${x}, ${y})`}>
-        {
-          globalArr.map((d, i) => (
-            <rect
-              height={yValue(d) / innerHeight}
-              width={innerWidth / globalArr.length}
-              y={yScale(yValue(d))}
-              x={(i * innerWidth) / globalArr.length}
-            />
-          ))
-          // .map((d) => (
-          //   <Rect
-          //     height={() => yValue(d) / innerHeight}
-          //     width={() => innerWidth / globalArr.length}
-          //   />
-          // ))
-        }
-      </g>
+    <svg ref={svgRef} height={height} width={width}>
+      <g transform={`translate(${x}, ${y})`}>{bars}</g>
       <g className="y-axis" />
       <g className="x-axis" />
     </svg>
   );
-}
+};
 
-// export default BarChart;
+export default BarChart;
