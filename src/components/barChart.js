@@ -22,7 +22,7 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
   const width = svgWidth;
   const height = svgHeight;
 
-  const margin = { top: 60, right: 80, bottom: 88, left: 150 };
+  const margin = { top: 60, right: 80, bottom: 200, left: 150 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -69,7 +69,10 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
     const xAxisG = g.select(".x-axis");
-    const xAxisGEnter = gEnter.append("g").attr("class", "x-axis");
+    const xAxisGEnter = gEnter
+      .append("g")
+      .attr("class", "x-axis")
+      .attr("transform", `translate(0, ${innerHeight - 15})`);
     xAxisGEnter.merge(xAxisG).call(xAxis).selectAll(".domain").remove();
 
     const yAxisG = g.select(".y-axis");
@@ -120,22 +123,22 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
           .attr("opacity", 0.5)
           .style("background-color", "red");
         console.log(value, index);
-      });
-    // .on("mouseleave", () => svg.select(".tooltip").remove());
+      })
+      .on("mouseleave", () => svg.select(".tooltip").remove());
   };
 
-  const bars = globalArr.map((d, i) => (
-    <Rect
-      height={yValue(d) / innerHeight}
-      width={innerWidth / globalArr.length}
-      y={yScale(yValue(d))}
-      x={(i * innerWidth) / globalArr.length}
-    />
-  ));
+  // const bars = globalArr.map((d, i) => (
+  //   <Rect
+  //     height={yValue(d) / innerHeight}
+  //     width={innerWidth / globalArr.length}
+  //     y={yScale(yValue(d))}
+  //     x={(i * innerWidth) / globalArr.length}
+  //   />
+  // ));
 
   return (
     <svg ref={svgRef} height={svgHeight} width={svgWidth}>
-      <g transform={`translate(${x}, ${y})`}>{bars}</g>
+      {/* <g transform={`translate(${x}, ${y})`}>{bars}</g> */}
       <g className="y-axis" />
       <g className="x-axis" />
     </svg>
