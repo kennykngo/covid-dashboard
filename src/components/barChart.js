@@ -146,11 +146,12 @@ export default function BarChart({ props, x, y }) {
     <svg ref={svgRef} height={500} width={960}>
       <g transform={`translate(${x}, ${y})`}>
         {
-          globalArr.map((d) => (
+          globalArr.map((d, i) => (
             <rect
               height={yValue(d) / innerHeight}
               width={innerWidth / globalArr.length}
               y={yScale(yValue(d))}
+              x={(i * innerWidth) / globalArr.length}
             />
           ))
           // .map((d) => (
