@@ -1,6 +1,8 @@
-import { LoadAndProcess } from "./loadAndProcess";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import { BarChart } from "./components";
+import { LoadAndProcess } from "./loadAndProcess";
+
 import "./App.css";
 
 function App() {
@@ -14,7 +16,7 @@ function App() {
 
   return (
     <div className="App">
-      {data ? <BarChart props={data} x={0} y={0} /> : <h1>Loading...</h1>}
+      {data ? <BarChart props={data} x={100} y={100} /> : <h1>Loading...</h1>}
     </div>
   );
 }
