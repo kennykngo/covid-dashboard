@@ -4,19 +4,20 @@ import styled from "styled-components";
 import "./__barChart.scss";
 import { PopperTip } from "./";
 
-const Text = styled.text`
-  color: red;
-  backgroundcolor: black;
+const Rect = styled.rect`
+  fill: red;
+  fill-opacity: 1;
 `;
 
-const BarChart = (props) => {
+const BarChart = ({ props, forwardedRef, x, y }) => {
   // export default function BarChart({ ref, props, x, y }) {
-  console.log(props.props);
-  console.log(props.x);
-  console.log(props.y);
-  console.log(props.svgRef);
+  console.log(props);
+  // console.log(props.x);
+  // console.log(props.y);
+  // console.log(props.svgRef);
+  console.log(forwardedRef);
   // const [tooltip, setTooltip] = useState(false);
-  // const svgRef = useRef();
+  const svgRef = useRef();
   // //   console.log(props);
 
   // const xValue = (d) => d.date;
@@ -123,7 +124,7 @@ const BarChart = (props) => {
   // }, [props]);
 
   return (
-    <svg ref={props.svgRef}>
+    <svg ref={svgRef}>
       <g transform={`translate(${x}, ${y})`}>
         {props.map((d) => (
           <Rect
