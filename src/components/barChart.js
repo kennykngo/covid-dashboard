@@ -56,11 +56,12 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
 
     const yScale = d3
       .scaleLinear()
-      .domain(d3.extent(globalArr, yValue))
+      .domain([0, d3.max(globalArr.map((d) => yValue(d)))])
+      // .domain(d3.extent(globalArr, yValue))
       .range([innerHeight, 0]);
 
     const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisRight(yScale);
+    const yAxis = d3.axisRight(yScale).tickSize(innerWidth);
 
     const g = svg.selectAll(".container").data([null]);
     const gEnter = g.enter().append("g").attr("class", "container");
@@ -116,7 +117,7 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
           .selectAll(".tooltip")
           .data([value])
           .join((enter) => enter.append("text").attr("y", yScale(value)))
-          .text(`${value.date} \n ${value.totalCases}`)
+          .html(`<div> <h1>${value.date} </h1>\n ${value.totalCases}</div>`)
           .attr("class", "tooltip")
           .attr("x", () => (index * innerWidth) / globalArr.length)
           .attr("y", yScale(yValue(value)) - 12)
