@@ -12,13 +12,19 @@ const xValue = (d) => d.date;
 const yValue = (d) => d.totalCases;
 
 const Tooltip = ({ x, y, data }) => (
-  <foreignObject x={x} y={y} width={100} height={50}>
+  <ForeignObject x={x} y={y} width={100} height={50}>
     <div>
+      {console.log(x, y)}
       <strong>{data.date}</strong>
       <p> {data.totalCases}</p>
     </div>
-  </foreignObject>
+  </ForeignObject>
 );
+
+const ForeignObject = styled.foreignObject`
+  background-color: green;
+  font-size: 9px;
+`;
 
 // const BarChart = ({ props, forwardedRef, x, y }) => {
 const BarChart = ({
@@ -191,8 +197,8 @@ const BarChart = ({
         {bars}
         {tooltip && (
           <Tooltip
-            x={yScale(yValue(tooltip))}
-            y={xScale(xValue(tooltip))}
+            x={xScale(xValue(tooltip))}
+            y={yScale(yValue(tooltip))}
             data={tooltip}
           />
         )}
