@@ -17,6 +17,8 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
 
+  let selectedBar;
+
   useEffect(() => draw(), [worldArr]);
 
   const width = svgWidth;
@@ -73,7 +75,7 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
     const xAxisGEnter = gEnter
       .append("g")
       .attr("class", "x-axis")
-      .attr("transform", `translate(0, ${innerHeight - margin.bottom})`);
+      .attr("transform", `translate(0, ${innerHeight})`);
     xAxisGEnter.merge(xAxisG).call(xAxis).selectAll(".domain").remove();
 
     const yAxisG = g.select(".y-axis");
@@ -108,10 +110,13 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
       .attr("y", (d) => yScale(yValue(d)))
       .attr("width", (d, i) => innerWidth / globalArr.length)
       .attr("height", (d) => innerHeight - yScale(yValue(d)))
+      .attr("class", "rectBars")
       // .attr("height", (d) => console.log(yScale(yValue(d))))
-      .attr("fill", "black")
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
+
+        selectedBar = value;
+        console.log(selectedBar);
 
         gEnter
           .selectAll(".tooltip")
@@ -124,7 +129,6 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
           .attr("text-anchor", "middle")
           .attr("opacity", 0.5)
           .style("background-color", "red");
-        console.log(value, index);
       })
       .on("mouseleave", () => svg.select(".tooltip").remove());
   };
