@@ -7,10 +7,10 @@ import "./App.css";
 
 function App() {
   const [data, setData] = useState();
-  let [selectedBar, setSelectedBar] = useState();
+  var [selectedBar, setSelectedBar] = useState();
 
   const onMouseOver = (d) => {
-    setSelectedBar((selectedBar = d));
+    return setSelectedBar((selectedBar = d));
     console.log("worky");
   };
 

@@ -20,15 +20,14 @@ const BarChart = ({
   x,
   y,
 }) => {
-  console.log(onMouse);
   let [selectedBar, setSelectedBar] = useState();
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
 
-  onMouse(globalArr);
-  console.log(selectedRectBar);
+  // onMouse(globalArr);
+  // console.log(selectedRectBar);
 
   const onClick = (d) => setSelectedBar((selectedBar = d));
 
@@ -104,9 +103,6 @@ const BarChart = ({
       .merge(xAxisG.select(".axis-label"))
       .attr("y", -innerWidth / 2);
 
-    onMouse(globalArr);
-    console.log(selectedRectBar);
-
     yAxisGEnter
       .append("text")
       .attr("class", "axis-label")
@@ -120,6 +116,9 @@ const BarChart = ({
     const rectBars = gEnter.selectAll("rect").data(globalArr);
     const rectBarEnter = rectBars.enter().append("rect");
 
+    // onMouse(globalArr);
+    // console.log(selectedRectBar);
+
     rectBars
       .merge(rectBarEnter)
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
@@ -127,33 +126,35 @@ const BarChart = ({
       .attr("width", (d, i) => innerWidth / globalArr.length)
       .attr("height", (d) => innerHeight - yScale(yValue(d)))
       .attr("class", "rectBars")
-      .on("click", (e, d) => {
-        console.log(selectedRectBar);
+      .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5))
+      .on("mouseenter", function (e, value) {
+        const index = svg.selectAll("rect").nodes().indexOf(this);
+        onClick(value);
+
+        d3.selectAll("rect")
+          .transition()
+          .duration(50)
+          .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5));
+
+        // setSelectedBar((selectedBar = value));
+        console.log(selectedBar);
+
+        // rectBars.attr("opacity", (d) =>
+        //   !selectedBar || d === selectedBar ? 1 : 0.5
+        // );
+
+        gEnter
+          .selectAll(".tooltip")
+          .data([value])
+          .join((enter) => enter.append("text").attr("y", yScale(value)))
+          .text(`${value.date}\n ${value.totalCases}`)
+          .attr("class", "tooltip")
+          .attr("x", () => (index * innerWidth) / globalArr.length)
+          .attr("y", yScale(yValue(value)) - 12)
+          .attr("text-anchor", "middle");
+        // .attr("opacity", 0.5)
+        // .style("background-color", "red");
       });
-    // .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5))
-    // .on("mouseenter", console.log(selectedBar));
-    // .on("mouseenter", function (e, value) {
-    //   const index = svg.selectAll("rect").nodes().indexOf(this);
-
-    //   setSelectedBar((selectedBar = value));
-    //   console.log(selectedBar);
-
-    //   rectBars.attr("opacity", (d) =>
-    //     !selectedBar || d === selectedBar ? 1 : 0.5
-    //   );
-
-    //   gEnter
-    //     .selectAll(".tooltip")
-    //     .data([value])
-    //     .join((enter) => enter.append("text").attr("y", yScale(value)))
-    //     .text(`${value.date}\n ${value.totalCases}`)
-    //     .attr("class", "tooltip")
-    //     .attr("x", () => (index * innerWidth) / globalArr.length)
-    //     .attr("y", yScale(yValue(value)) - 12)
-    //     .attr("text-anchor", "middle");
-    //   // .attr("opacity", 0.5)
-    //   // .style("background-color", "red");
-    // });
 
     // .on("mouseleave", () => svg.select(".tooltip").remove());
   };
