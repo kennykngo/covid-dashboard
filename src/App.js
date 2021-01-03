@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
   const [data, setData] = useState();
-  // let [selectedBar, setSelectedBar] = useState([]);
+  let [selectedBar, setSelectedBar] = useState();
 
   const onMouseOver = (d) => {
     setSelectedBar((selectedBar = d));
@@ -26,8 +26,8 @@ function App() {
         <BarChart
           svgWidth={960}
           svgHeight={500}
-          // selectedRectBar={selectedBar}
-          // onMouse={onMouseOver}
+          selectedRectBar={selectedBar}
+          onMouse={onMouseOver}
           props={data}
           x={100}
           y={100}
