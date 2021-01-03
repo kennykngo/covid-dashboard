@@ -54,6 +54,7 @@ const BarChart = ({
   // const onClick = (d) => {
   //   selectedBar = d;
   // };
+
   const width = svgWidth;
   const height = svgHeight;
 
@@ -133,6 +134,12 @@ const BarChart = ({
 
     const rectBars = gEnter.selectAll(".rectBars").data(globalArr).join("rect");
 
+    svg
+      .selectAll("rect")
+      .data(globalArr)
+      .attr("opacity", (d) => (!tooltip || d === tooltip ? 1 : 0.5))
+      .transition()
+      .duration(250);
     // rectBars
     //   .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
     //   .attr("y", (d) => yScale(yValue(d)))
