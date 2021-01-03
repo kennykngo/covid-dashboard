@@ -11,16 +11,26 @@ const Rect = styled.rect`
 const yValue = (d) => d.totalCases;
 
 // const BarChart = ({ props, forwardedRef, x, y }) => {
-const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
-  console.log(props);
+const BarChart = ({
+  svgWidth,
+  svgHeight,
+  selectedRectBar,
+  onMouse,
+  props,
+  x,
+  y,
+}) => {
+  let [selectedBar, setSelectedBar] = useState();
+  // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
 
-  let selectedBar;
-
   useEffect(() => draw(), [worldArr]);
 
+  // const onClick = (d) => {
+  //   selectedBar = d;
+  // };
   const width = svgWidth;
   const height = svgHeight;
 
@@ -102,10 +112,9 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
       .merge(yAxisG.select(".axis-label"))
       .attr("x", -innerHeight / 2);
 
-    gEnter
-      .selectAll("rect")
-      .data(globalArr)
-      .join("rect")
+    const rectBars = gEnter.selectAll("rect").data(globalArr).join("rect");
+
+    rectBars
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .attr("y", (d) => yScale(yValue(d)))
       .attr("width", (d, i) => innerWidth / globalArr.length)
@@ -115,8 +124,13 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
       .on("mouseenter", function (e, value) {
         const index = svg.selectAll("rect").nodes().indexOf(this);
 
-        selectedBar = value;
+        setSelectedBar((selectedBar = value));
         console.log(selectedBar);
+
+        // onMouse(value);
+        // console.log(selectedRectBar);
+
+        // selectedBar = value;
 
         gEnter
           .selectAll(".tooltip")
@@ -130,7 +144,8 @@ const BarChart = ({ svgWidth, svgHeight, props, x, y }) => {
           .attr("opacity", 0.5)
           .style("background-color", "red");
       })
-      .on("mouseleave", () => svg.select(".tooltip").remove());
+      .attr("opacity", (d) => (!selectedBar || d === selectedBar ? 1 : 0.5));
+    // .on("mouseleave", () => svg.select(".tooltip").remove());
   };
 
   // const bars = globalArr.map((d, i) => (

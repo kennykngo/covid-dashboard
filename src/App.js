@@ -7,6 +7,12 @@ import "./App.css";
 
 function App() {
   const [data, setData] = useState();
+  // let [selectedBar, setSelectedBar] = useState([]);
+
+  const onMouseOver = (d) => {
+    setSelectedBar((selectedBar = d));
+    console.log("worky");
+  };
 
   useEffect(() => {
     LoadAndProcess().then((d) => {
@@ -17,7 +23,15 @@ function App() {
   return (
     <div className="App">
       {data ? (
-        <BarChart svgWidth={960} svgHeight={500} props={data} x={100} y={100} />
+        <BarChart
+          svgWidth={960}
+          svgHeight={500}
+          // selectedRectBar={selectedBar}
+          // onMouse={onMouseOver}
+          props={data}
+          x={100}
+          y={100}
+        />
       ) : (
         <h1>Loading...</h1>
       )}
