@@ -14,6 +14,8 @@ function App() {
     console.log("worky");
   };
 
+  const margin = { top: 60, right: 80, bottom: 80, left: 150 };
+
   useEffect(() => {
     LoadAndProcess().then((d) => {
       setData(d);
@@ -27,10 +29,11 @@ function App() {
           svgWidth={960}
           svgHeight={500}
           selectedRectBar={selectedBar}
+          margin={margin}
           onMouse={onMouseOver}
           props={data}
-          x={100}
-          y={100}
+          x={margin.left}
+          y={margin.top}
         />
       ) : (
         <h1>Loading...</h1>

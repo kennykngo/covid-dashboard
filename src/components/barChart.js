@@ -6,21 +6,33 @@ import "./__barChart.scss";
 
 const Rect = styled.rect`
   fill: red;
-  fill-opacity: 0.5;
 `;
+
+const xValue = (d) => d.date;
 const yValue = (d) => d.totalCases;
+
+const Tooltip = ({ x, y, data }) => (
+  <foreignObject x={x} y={y} width={100} height={50}>
+    <div>
+      <strong>{data.date}</strong>
+      <p> {data.totalCases}</p>
+    </div>
+  </foreignObject>
+);
 
 // const BarChart = ({ props, forwardedRef, x, y }) => {
 const BarChart = ({
   svgWidth,
   svgHeight,
   selectedRectBar,
+  margin,
   onMouse,
   props,
   x,
   y,
 }) => {
   let [selectedBar, setSelectedBar] = useState();
+  let [tooltip, setTooltip] = useState(false);
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
@@ -39,7 +51,6 @@ const BarChart = ({
   const width = svgWidth;
   const height = svgHeight;
 
-  const margin = { top: 60, right: 80, bottom: 80, left: 150 };
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
@@ -53,7 +64,8 @@ const BarChart = ({
 
   const yScale = d3
     .scaleLinear()
-    .domain(d3.extent(globalArr, yValue))
+    .domain([0, d3.max(globalArr.map((d) => yValue(d)))])
+    // .domain(d3.extent(globalArr, yValue))
     .range([innerHeight, 0]);
 
   const draw = () => {
@@ -113,64 +125,78 @@ const BarChart = ({
       .merge(yAxisG.select(".axis-label"))
       .attr("x", -innerHeight / 2);
 
-    const rectBars = gEnter.selectAll("rect").data(globalArr);
-    const rectBarEnter = rectBars.enter().append("rect");
+    const rectBars = gEnter.selectAll(".rectBars").data(globalArr).join("rect");
 
-    // onMouse(globalArr);
-    // console.log(selectedRectBar);
+    // rectBars
+    //   .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
+    //   .attr("y", (d) => yScale(yValue(d)))
+    //   .attr("width", (d, i) => innerWidth / globalArr.length)
+    //   .attr("height", (d) => innerHeight - yScale(yValue(d)))
+    //   .attr("class", "rectBars")
+    //   .attr("opacity", (d) => (!selectedBar || d === selectedBar ? 1 : 0.5));
+    // // .transition()
 
-    rectBars
-      .merge(rectBarEnter)
-      .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
-      .attr("y", (d) => yScale(yValue(d)))
-      .attr("width", (d, i) => innerWidth / globalArr.length)
-      .attr("height", (d) => innerHeight - yScale(yValue(d)))
-      .attr("class", "rectBars")
-      .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5))
-      .on("mouseenter", function (e, value) {
-        const index = svg.selectAll("rect").nodes().indexOf(this);
-        onClick(value);
+    // gEnter
+    //   .selectAll(".rectBars")
+    //   .on("mouseenter", function (e, value) {
+    //     const index = svg.selectAll("rect").nodes().indexOf(this);
+    //     onClick(value);
 
-        d3.selectAll("rect")
-          .transition()
-          .duration(50)
-          .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5));
+    //     // console.log(this);
+    //     // d3.select(this)
+    //     //   .transition()
+    //     //   .duration(350)
+    //     //   .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5));
+    //     d3.selectAll("rect")
+    //       .transition()
+    //       .duration(50)
+    //       .attr("opacity", (d) =>
+    //         !selectedBar || d === selectedBar ? 1 : 0.5
+    //       );
 
-        // setSelectedBar((selectedBar = value));
-        console.log(selectedBar);
+    //     // setSelectedBar((selectedBar = value));
+    //     console.log(selectedBar);
 
-        // rectBars.attr("opacity", (d) =>
-        //   !selectedBar || d === selectedBar ? 1 : 0.5
-        // );
-
-        gEnter
-          .selectAll(".tooltip")
-          .data([value])
-          .join((enter) => enter.append("text").attr("y", yScale(value)))
-          .text(`${value.date}\n ${value.totalCases}`)
-          .attr("class", "tooltip")
-          .attr("x", () => (index * innerWidth) / globalArr.length)
-          .attr("y", yScale(yValue(value)) - 12)
-          .attr("text-anchor", "middle");
-        // .attr("opacity", 0.5)
-        // .style("background-color", "red");
-      });
-
-    // .on("mouseleave", () => svg.select(".tooltip").remove());
+    //     gEnter
+    //       .selectAll(".tooltip")
+    //       .data([value])
+    //       .join((enter) => enter.append("text").attr("y", yScale(value)))
+    //       .text(`${value.date}\n ${value.totalCases}`)
+    //       .attr("class", "tooltip")
+    //       .attr("x", () => (index * innerWidth) / globalArr.length)
+    //       .attr("y", yScale(yValue(value)) - 12)
+    //       .attr("text-anchor", "middle");
+    //     // .attr("opacity", 0.5)
+    //     // .style("background-color", "red");
+    //   })
+    //   .on("mouseleave", () => {
+    //     svg.select(".tooltip").remove();
+    //   });
   };
 
-  // const bars = globalArr.map((d, i) => (
-  //   <Rect
-  //     height={yValue(d) / innerHeight}
-  //     width={innerWidth / globalArr.length}
-  //     y={yScale(yValue(d))}
-  //     x={(i * innerWidth) / globalArr.length}
-  //   />
-  // ));
+  const bars = globalArr.map((d, i) => (
+    <Rect
+      height={innerHeight - yScale(yValue(d))}
+      width={innerWidth / globalArr.length}
+      y={yScale(yValue(d))}
+      x={(i * innerWidth) / globalArr.length}
+      onMouseOver={() => setTooltip(d)}
+      onMouseOut={() => setTooltip(false)}
+    />
+  ));
 
   return (
     <svg ref={svgRef} height={svgHeight} width={svgWidth}>
-      {/* <g transform={`translate(${x}, ${y})`}>{bars}</g> */}
+      <g transform={`translate(${x}, ${y})`}>
+        {bars}
+        {tooltip && (
+          <Tooltip
+            x={yScale(yValue(tooltip))}
+            y={xScale(xValue(tooltip))}
+            data={tooltip}
+          />
+        )}
+      </g>
       <g className="y-axis" />
       <g className="x-axis" />
     </svg>
