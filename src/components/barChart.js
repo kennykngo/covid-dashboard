@@ -14,7 +14,8 @@ const yValue = (d) => d.totalCases;
 const Tooltip = ({ x, y, data }) => (
   <ForeignObject x={x} y={y} width={100} height={50}>
     <div>
-      {console.log(x, y)}
+      {console.log(x)}
+      {console.log(y)}
       <strong>{data.date}</strong>
       <p> {data.totalCases}</p>
     </div>
@@ -79,7 +80,7 @@ const BarChart = ({
     const svg = d3.select(svgRef.current);
 
     const xScale = d3
-      .scaleTime()
+      .scaleBand()
       .domain([
         new Date(globalArr[0].date),
         new Date(globalArr[globalArr.length - 1].date),
@@ -94,7 +95,10 @@ const BarChart = ({
 
     const yTickFormat = (num) => d3.format(".2s")(num);
 
-    const xAxis = d3.axisBottom(xScale);
+    const xAxis = d3
+      .axisBottom(xScale)
+      .ticks()
+      .tickFormat(d3.utcFormat("%-m/%-d"));
     const yAxis = d3
       .axisRight(yScale)
       .tickSize(innerWidth)
@@ -143,12 +147,19 @@ const BarChart = ({
       .selectAll("rect")
       .data(globalArr)
       .attr("opacity", (d) => (!tooltip || d === tooltip ? 1 : 0.5))
+      .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .transition()
       .duration(250);
+
+    svg
+      .selectAll("foreignobject")
+      .data(globalArr)
+      .attr("x", (d, i) => (i * innerWidth) / globalArr.length);
   };
 
   const bars = globalArr.map((d, i) => (
     <Rect
+      rx={"1px"}
       height={innerHeight - yScale(yValue(d))}
       width={innerWidth / globalArr.length}
       y={yScale(yValue(d))}
@@ -164,7 +175,8 @@ const BarChart = ({
         {bars}
         {tooltip && (
           <Tooltip
-            x={xScale(xValue(tooltip))}
+            // x={xScale(xValue(tooltip))}
+            x={d3.select(svgRef.current).selectAll("rect").node().x}
             y={yScale(yValue(tooltip))}
             data={tooltip}
           />
