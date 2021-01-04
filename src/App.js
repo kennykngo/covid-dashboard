@@ -12,7 +12,7 @@ function App() {
     console.log("worky");
   };
 
-  const margin = { top: 60, right: 80, bottom: 80, left: 150 };
+  const margin = { top: 90, right: 100, bottom: 80, left: 150 };
 
   useEffect(() => {
     LoadAndProcess().then((d) => {
