@@ -157,7 +157,6 @@ const BarChart = ({
     svg
       .selectAll("rect")
       .data(globalArr)
-      .attr("class", "rectBar")
       .attr("opacity", (d) => (!tooltip || d === tooltip ? 1 : 0.5))
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .transition()
