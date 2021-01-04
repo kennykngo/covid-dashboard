@@ -5,7 +5,8 @@ import styled from "styled-components";
 import "./__barChart.scss";
 
 const Rect = styled.rect`
-  fill: red;
+  fill: steelblue;
+  stroke: 1px solid black;
 `;
 
 const xValue = (d) => d.date;
@@ -27,7 +28,6 @@ const ForeignObject = styled.foreignObject`
   border-radius: 10px;
 `;
 
-// const BarChart = ({ props, forwardedRef, x, y }) => {
 const BarChart = ({
   svgWidth,
   svgHeight,
