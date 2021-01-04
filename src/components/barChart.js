@@ -15,6 +15,7 @@ const yValue = (d) => d.totalCases;
 const Tooltip = ({ x, y, data }) => (
   <ForeignObject x={x} y={y} width={100} height={50}>
     <div>
+      {console.log(x)}
       <h3>{data.date}</h3>
       <p> {data.totalCases}</p>
     </div>
@@ -40,6 +41,8 @@ const BarChart = ({
 }) => {
   let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
+  let [currentCase, setCurrentCase] = useState(null);
+  let [indexOfBar, setIndexOfBar] = useState(0);
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
@@ -114,7 +117,9 @@ const BarChart = ({
     const gEnter = g.enter().append("g").attr("class", "container");
     gEnter
       .merge(g)
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .selectAll(".container")
+      .remove();
 
     const xAxisG = g.select(".x-axis");
     const xAxisGEnter = gEnter
@@ -147,45 +152,54 @@ const BarChart = ({
       .merge(yAxisG.select(".axis-label"))
       .attr("x", -innerHeight / 2);
 
-    const rectBars = gEnter.selectAll(".rectBars").data(globalArr).join("rect");
+    // const rectBars = gEnter.selectAll(".rectBars").data(globalArr).join("rect");
 
     svg
       .selectAll("rect")
       .data(globalArr)
+      .attr("class", "rectBar")
       .attr("opacity", (d) => (!tooltip || d === tooltip ? 1 : 0.5))
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .transition()
       .duration(250);
 
-    svg
-      .selectAll("foreignobject")
-      .data(globalArr)
-      .attr("x", (d, i) => (i * innerWidth) / globalArr.length);
+    // svg
+    //   .selectAll("foreignobject")
+    //   .data(globalArr)
+    //   .attr("x", (d, i) => (i * innerWidth) / globalArr.length);
+
+    // const title = d3.select(".title").data([null]);
+    // const titleEnter = title.join("h1").attr("class", "title").text("Hi");
   };
 
-  const bars = globalArr.map((d, i) => (
+  const bars = globalArr.map((d, index) => (
     <Rect
       rx={"1px"}
       height={innerHeight - yScale(yValue(d))}
       width={innerWidth / globalArr.length}
       y={yScale(yValue(d))}
-      x={(i * innerWidth) / globalArr.length}
-      onMouseOver={() => setTooltip(d)}
+      // x={console.log(index)}
+      x={(index * innerWidth) / globalArr.length}
+      id={index}
+      key={index}
+      onMouseOver={() => {
+        setIndexOfBar(index);
+        return setTooltip(d);
+      }}
       onMouseOut={() => setTooltip(false)}
     />
   ));
 
   return (
     <svg ref={svgRef} height={svgHeight} width={svgWidth}>
+      <h1> COVID Cases</h1>
       <g transform={`translate(${x}, ${y})`}>
         {bars}
         {tooltip && (
           <Tooltip
             // x={xScale(xValue(tooltip))}
-            // x={console.log(xScale(xValue(tooltip)))}
-            // y={yScale(yValue(tooltip))}
-            x={margin.left}
-            y={margin.top}
+            x={(indexOfBar * innerWidth) / globalArr.length}
+            y={yScale(yValue(tooltip))}
             data={tooltip}
           />
         )}
