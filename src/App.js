@@ -3,8 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { BarChart } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
 
-import "./App.css";
-
 function App() {
   const [data, setData] = useState();
   var [selectedBar, setSelectedBar] = useState();
