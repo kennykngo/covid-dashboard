@@ -14,17 +14,17 @@ const yValue = (d) => d.totalCases;
 const Tooltip = ({ x, y, data }) => (
   <ForeignObject x={x} y={y} width={100} height={50}>
     <div>
-      {console.log(x)}
-      {console.log(y)}
-      <strong>{data.date}</strong>
+      <h3>{data.date}</h3>
       <p> {data.totalCases}</p>
     </div>
   </ForeignObject>
 );
 
 const ForeignObject = styled.foreignObject`
-  background-color: green;
+  text-align: center;
+  background-color: indianred;
   font-size: 9px;
+  border-radius: 10px;
 `;
 
 // const BarChart = ({ props, forwardedRef, x, y }) => {
@@ -80,7 +80,7 @@ const BarChart = ({
     const svg = d3.select(svgRef.current);
 
     const xScale = d3
-      .scaleBand()
+      .scaleTime()
       .domain([
         new Date(globalArr[0].date),
         new Date(globalArr[globalArr.length - 1].date),
@@ -95,10 +95,16 @@ const BarChart = ({
 
     const yTickFormat = (num) => d3.format(".2s")(num);
 
+    const xTickValues = globalArr.map((d) => xValue(d));
+
     const xAxis = d3
       .axisBottom(xScale)
-      .ticks()
+      // .tickValues([1, 2, 3, 4, 5])
       .tickFormat(d3.utcFormat("%-m/%-d"));
+    // d3.utcMonday
+    //   .every(width > 720 ? 1 : 2)
+    //   .range(globalArr[0].date, globalArr[globalArr.length - 1].date)
+
     const yAxis = d3
       .axisRight(yScale)
       .tickSize(innerWidth)
@@ -176,8 +182,10 @@ const BarChart = ({
         {tooltip && (
           <Tooltip
             // x={xScale(xValue(tooltip))}
-            x={d3.select(svgRef.current).selectAll("rect").node().x}
-            y={yScale(yValue(tooltip))}
+            // x={console.log(xScale(xValue(tooltip)))}
+            // y={yScale(yValue(tooltip))}
+            x={margin.left}
+            y={margin.top}
             data={tooltip}
           />
         )}
