@@ -17,7 +17,7 @@ const Tooltip = ({ x, y, data }) => (
     <div>
       {console.log(x)}
       <h3>{data.date}</h3>
-      <p> {data.totalCases}</p>
+      <p> {yValue(data)}</p>
     </div>
   </ForeignObject>
 );
@@ -161,6 +161,12 @@ const BarChart = ({
       .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
       .transition()
       .duration(250);
+
+    gEnter
+      .append("text")
+      .attr("transform", `translate(${innerWidth / 2}, 0)`)
+      .attr("class", "title")
+      .text("Total Cases");
 
     // svg
     //   .selectAll("foreignobject")
