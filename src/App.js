@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
-import { BarChart } from "./components";
+import { BarChart, RadioButtonsGroup } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
 
 function App() {
   const [data, setData] = useState();
   var [selectedBar, setSelectedBar] = useState();
+  let [currentCase, setCurrentCase] = useState("total cases");
 
   const onMouseOver = (d) => {
     return setSelectedBar((selectedBar = d));
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <div className="App">
+      <RadioButtonsGroup selectedCase={currentCase} />
       {data ? (
         <BarChart
           svgWidth={960}
