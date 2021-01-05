@@ -1,4 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 import { BarChart, RadioButtonsGroup } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
@@ -31,21 +34,25 @@ function App() {
         setCurrentCase={onRadioClick}
         globalCaseArr={globalCaseArr}
       />
-      {data ? (
-        <BarChart
-          currentCase={currentCase}
-          svgWidth={960}
-          svgHeight={500}
-          // selectedRectBar={selectedBar}
-          margin={margin}
-          // onMouse={onMouseOver}
-          props={data}
-          x={margin.left}
-          y={margin.top}
-        />
-      ) : (
-        <h1>Loading...</h1>
-      )}
+      <Container>
+        <Row>
+          {data ? (
+            <BarChart
+              currentCase={currentCase}
+              svgWidth={960}
+              svgHeight={500}
+              // selectedRectBar={selectedBar}
+              margin={margin}
+              // onMouse={onMouseOver}
+              props={data}
+              x={margin.left}
+              y={margin.top}
+            />
+          ) : (
+            <h1>Loading...</h1>
+          )}
+        </Row>
+      </Container>
     </div>
   );
 }
