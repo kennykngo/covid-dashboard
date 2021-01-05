@@ -14,7 +14,7 @@ function App() {
     console.log("worky");
   };
 
-  const onRadioClick = (d) => setCurrentCase(d);
+  const onRadioClick = (e) => setCurrentCase(e.target.value);
 
   const margin = { top: 90, right: 100, bottom: 80, left: 150 };
 

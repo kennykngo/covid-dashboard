@@ -18,12 +18,13 @@ export default function RadioButtonsGroup({
 
   return (
     <FormControl component="fieldset">
-      <FormLabel component="legend">Gender</FormLabel>
+      <FormLabel component="legend">Global COVID Update</FormLabel>
       <RadioGroup
         aria-label="gender"
         name="gender1"
-        value={value}
-        onChange={handleChange}
+        value={selectedCase}
+        onChange={setCurrentCase}
+        onClick={console.log(selectedCase)}
       >
         {globalCaseArr.map((d) => (
           <FormControlLabel value={d} control={<Radio />} label={d} />
