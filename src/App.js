@@ -33,11 +33,12 @@ function App() {
       />
       {data ? (
         <BarChart
+          currentCase={currentCase}
           svgWidth={960}
           svgHeight={500}
-          selectedRectBar={selectedBar}
+          // selectedRectBar={selectedBar}
           margin={margin}
-          onMouse={onMouseOver}
+          // onMouse={onMouseOver}
           props={data}
           x={margin.left}
           y={margin.top}

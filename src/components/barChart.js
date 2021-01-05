@@ -9,11 +9,14 @@ const Rect = styled.rect`
   stroke: 1px solid black;
 `;
 
-const xValue = (d) => d.date;
-const yValue = (d) => d.totalCases;
+let currentValue;
 
-const Tooltip = ({ x, y, data }) => (
-  <ForeignObject x={x} y={y} width={100} height={50}>
+const xValue = (d) => d.date;
+const yValue = (d) =>
+  currentValue === "total cases" ? d.totalCases : d.totalDeaths;
+
+const Tooltip = ({ x, y, data, style }) => (
+  <ForeignObject x={x} y={y} width={100} height={50} style={style}>
     <div>
       {console.log(x)}
       <h3>{data.date}</h3>
@@ -24,7 +27,6 @@ const Tooltip = ({ x, y, data }) => (
 
 const ForeignObject = styled.foreignObject`
   text-align: center;
-  background-color: indianred;
   font-size: 9px;
   border-radius: 10px;
 `;
@@ -32,26 +34,22 @@ const ForeignObject = styled.foreignObject`
 const BarChart = ({
   svgWidth,
   svgHeight,
-  selectedRectBar,
+  currentCase,
   margin,
-  onMouse,
   props,
   x,
   y,
 }) => {
   let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
-  let [currentCase, setCurrentCase] = useState(null);
   let [indexOfBar, setIndexOfBar] = useState(0);
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
+  currentValue = currentCase;
 
-  // onMouse(globalArr);
-  // console.log(selectedRectBar);
-
-  const onClick = (d) => setSelectedBar((selectedBar = d));
+  console.log(currentValue);
 
   useEffect(() => draw(), [globalArr]);
 
@@ -183,8 +181,12 @@ const BarChart = ({
       height={innerHeight - yScale(yValue(d))}
       width={innerWidth / globalArr.length}
       y={yScale(yValue(d))}
-      // x={console.log(index)}
       x={(index * innerWidth) / globalArr.length}
+      style={
+        currentCase === "total cases"
+          ? { fill: "steelblue" }
+          : { fill: "indianred" }
+      }
       id={index}
       key={index}
       onMouseOver={() => {
@@ -205,6 +207,11 @@ const BarChart = ({
             // x={xScale(xValue(tooltip))}
             x={(indexOfBar * innerWidth) / globalArr.length}
             y={yScale(yValue(tooltip)) - margin.top}
+            style={
+              currentCase === "total cases"
+                ? { backgroundColor: "steelblue" }
+                : { backgroundColor: "indianred" }
+            }
             // y={innerHeight - margin.top}
             data={tooltip}
           />

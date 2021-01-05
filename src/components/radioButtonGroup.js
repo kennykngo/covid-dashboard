@@ -10,12 +10,6 @@ export default function RadioButtonsGroup({
   setCurrentCase,
   globalCaseArr,
 }) {
-  const [value, setValue] = React.useState(selectedCase);
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
-
   return (
     <FormControl component="fieldset">
       <FormLabel component="legend">Global COVID Update</FormLabel>
