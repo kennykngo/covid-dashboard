@@ -5,8 +5,12 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 
-export default function RadioButtonsGroup({ selectedCase }) {
-  const [value, setValue] = React.useState("female");
+export default function RadioButtonsGroup({
+  selectedCase,
+  setCurrentCase,
+  globalCaseArr,
+}) {
+  const [value, setValue] = React.useState(selectedCase);
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -21,15 +25,11 @@ export default function RadioButtonsGroup({ selectedCase }) {
         value={value}
         onChange={handleChange}
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
-        <FormControlLabel
-          value="disabled"
-          disabled
-          control={<Radio />}
-          label="(Disabled option)"
-        />
+        {globalCaseArr.map((d) => (
+          <FormControlLabel value={d} control={<Radio />} label={d} />
+        ))}
+        {/* <FormControlLabel value="female" control={<Radio />} label="Female" />
+        <FormControlLabel value="male" control={<Radio />} label="Male" /> */}
       </RadioGroup>
     </FormControl>
   );
