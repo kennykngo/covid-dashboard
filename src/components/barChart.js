@@ -43,7 +43,6 @@ const BarChart = ({
   x,
   y,
 }) => {
-  let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
   let [indexOfBar, setIndexOfBar] = useState(0);
 
@@ -73,6 +72,7 @@ const BarChart = ({
   //
   // const ref = useRef();
   // const width = "100%";
+  console.log(width);
   const height = 500;
 
   // const width = svgWidth;
@@ -87,7 +87,8 @@ const BarChart = ({
       new Date(globalArr[0].date),
       new Date(globalArr[globalArr.length - 1].date),
     ])
-    .range([0, innerWidth]);
+    .range([0, width]);
+  // .range([0, innerWidth]);
 
   const yScale = d3
     .scaleLinear()
@@ -104,7 +105,8 @@ const BarChart = ({
         new Date(globalArr[0].date),
         new Date(globalArr[globalArr.length - 1].date),
       ])
-      .range([0, innerWidth]);
+      .range([0, width]);
+    // .range([0, innerWidth]);
 
     const yScale = d3
       .scaleLinear()
@@ -216,7 +218,7 @@ const BarChart = ({
   ));
 
   return (
-    <Col sm={12} lg={6} ref={ref}>
+    <Col sm={12} md={8} md={{ span: 2, offset: 2 }} lg={6} ref={ref}>
       <svg ref={svgRef} height={height} width={height}>
         <h1> COVID Cases</h1>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
