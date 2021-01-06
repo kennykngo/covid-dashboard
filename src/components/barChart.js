@@ -1,5 +1,7 @@
 import * as d3 from "d3";
 import React, { useEffect, useRef, useState } from "react";
+import Col from "react-bootstrap/Col";
+import { useMeasure } from "react-use";
 import styled from "styled-components";
 
 import "./__barChart.scss";
@@ -18,7 +20,7 @@ const yValue = (d) =>
 const Tooltip = ({ x, y, data, style }) => (
   <ForeignObject x={x} y={y} width={100} height={50} style={style}>
     <div>
-      {console.log(x)}
+      {console.log(y)}
       <h3>{data.date}</h3>
       <p> {yValue(data)}</p>
     </div>
@@ -32,17 +34,19 @@ const ForeignObject = styled.foreignObject`
 `;
 
 const BarChart = ({
-  svgWidth,
-  svgHeight,
+  // svgWidth,
+  // svgHeight,
   currentCase,
   margin,
   props,
-  x,
-  y,
+  // x,
+  // y,
 }) => {
   let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
   let [indexOfBar, setIndexOfBar] = useState(0);
+
+  // const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
@@ -53,12 +57,8 @@ const BarChart = ({
 
   useEffect(() => draw(), [globalArr]);
 
-  // const onClick = (d) => {
-  //   selectedBar = d;
-  // };
-
-  const width = svgWidth;
-  const height = svgHeight;
+  // const width = svgWidth;
+  // const height = svgHeight;
 
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
@@ -198,28 +198,30 @@ const BarChart = ({
   ));
 
   return (
-    <svg ref={svgRef} height={svgHeight} width={svgWidth}>
-      <h1> COVID Cases</h1>
-      <g transform={`translate(${x}, ${y})`}>
-        {bars}
-        {tooltip && (
-          <Tooltip
-            // x={xScale(xValue(tooltip))}
-            x={(indexOfBar * innerWidth) / globalArr.length}
-            y={yScale(yValue(tooltip)) - margin.top}
-            style={
-              currentCase === "total cases"
-                ? { backgroundColor: "steelblue" }
-                : { backgroundColor: "indianred" }
-            }
-            // y={innerHeight - margin.top}
-            data={tooltip}
-          />
-        )}
-      </g>
-      <g className="y-axis" />
-      <g className="x-axis" />
-    </svg>
+    <Col sm={12} lg={6} ref={ref}>
+      <svg ref={svgRef} height={height} width={height}>
+        <h1> COVID Cases</h1>
+        <g transform={`translate(${x}, ${y})`}>
+          {bars}
+          {tooltip && (
+            <Tooltip
+              // x={xScale(xValue(tooltip))}
+              x={(indexOfBar * innerWidth) / globalArr.length}
+              y={yScale(yValue(tooltip)) - margin.top}
+              style={
+                currentCase === "total cases"
+                  ? { backgroundColor: "steelblue" }
+                  : { backgroundColor: "indianred" }
+              }
+              // y={innerHeight - margin.top}
+              data={tooltip}
+            />
+          )}
+        </g>
+        <g className="y-axis" />
+        <g className="x-axis" />
+      </svg>
+    </Col>
   );
 };
 
