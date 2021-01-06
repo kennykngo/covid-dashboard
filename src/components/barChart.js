@@ -22,7 +22,7 @@ const Tooltip = ({ x, y, data, style }) => (
   <ForeignObject x={x} y={y} width={100} height={50} style={style}>
     <div>
       {console.log(y)}
-      <h3>{data.date}</h3>
+      <h6>{data.date}</h6>
       <p> {yValue(data)}</p>
     </div>
   </ForeignObject>
@@ -124,7 +124,7 @@ const BarChart = ({
       .axisBottom(xScale)
       // .tickValues([1, 2, 3, 4, 5])
       .tickFormat(d3.utcFormat("%-m/%-d"))
-      .ticks(6);
+      .ticks(innerWidth < 500 ? 6 : 10);
     // d3.utcMonday
     //   .every(width > 720 ? 1 : 2)
     //   .range(globalArr[0].date, globalArr[globalArr.length - 1].date)
@@ -132,8 +132,9 @@ const BarChart = ({
     const yAxis = d3
       .axisRight(yScale)
       .tickSize(innerWidth)
-      .tickFormat(yTickFormat)
-      .nice.floor(x0);
+      .tickFormat(yTickFormat);
+    // .nice();
+
     const g = svg.selectAll(".container").data([null]);
     const gEnter = g.enter().append("g").attr("class", "container");
     gEnter
@@ -229,7 +230,13 @@ const BarChart = ({
           {tooltip && (
             <Tooltip
               // x={xScale(xValue(tooltip))}
-              x={(indexOfBar * innerWidth) / globalArr.length}
+              x={
+                indexOfBar > 80
+                  ? (indexOfBar * innerWidth) / globalArr.length -
+                    margin.left -
+                    margin.right
+                  : (indexOfBar * innerWidth) / globalArr.length
+              }
               y={yScale(yValue(tooltip)) - margin.top}
               style={
                 currentCase === "total cases"
