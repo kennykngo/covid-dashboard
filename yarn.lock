@@ -4432,7 +4432,7 @@
     "d3-color" "1 - 2"
     "d3-interpolate" "1 - 2"
 
-"d3-scale@3":
+"d3-scale@^3.2.3", "d3-scale@3":
   "integrity" "sha512-8E37oWEmEzj57bHcnjPVOBS3n4jqakOeuv1EDdQSiSrYnMCBdMd3nc4HtKk7uia8DUHcY/CGuJ42xxgtEYrX0g=="
   "resolved" "https://registry.npmjs.org/d3-scale/-/d3-scale-3.2.3.tgz"
   "version" "3.2.3"

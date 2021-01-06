@@ -81,6 +81,8 @@ const BarChart = ({
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
+  console.log(ref);
+
   const xScale = d3
     .scaleTime()
     .domain([
@@ -105,7 +107,7 @@ const BarChart = ({
         new Date(globalArr[0].date),
         new Date(globalArr[globalArr.length - 1].date),
       ])
-      .range([0, width]);
+      .range([0, innerWidth]);
     // .range([0, innerWidth]);
 
     const yScale = d3
@@ -121,7 +123,8 @@ const BarChart = ({
     const xAxis = d3
       .axisBottom(xScale)
       // .tickValues([1, 2, 3, 4, 5])
-      .tickFormat(d3.utcFormat("%-m/%-d"));
+      .tickFormat(d3.utcFormat("%-m/%-d"))
+      .ticks(6);
     // d3.utcMonday
     //   .every(width > 720 ? 1 : 2)
     //   .range(globalArr[0].date, globalArr[globalArr.length - 1].date)
@@ -129,8 +132,8 @@ const BarChart = ({
     const yAxis = d3
       .axisRight(yScale)
       .tickSize(innerWidth)
-      .tickFormat(yTickFormat);
-
+      .tickFormat(yTickFormat)
+      .nice.floor(x0);
     const g = svg.selectAll(".container").data([null]);
     const gEnter = g.enter().append("g").attr("class", "container");
     gEnter
@@ -218,8 +221,8 @@ const BarChart = ({
   ));
 
   return (
-    <Col sm={12} md={8} md={{ span: 2, offset: 2 }} lg={6} ref={ref}>
-      <svg ref={svgRef} height={height} width={height}>
+    <Col sm={12} md={8} ref={ref}>
+      <svg ref={svgRef} height={height} width={width}>
         <h1> COVID Cases</h1>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {bars}

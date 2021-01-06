@@ -3,12 +3,12 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-
 // import { BarChart, RadioButtonsGroup } from "react-use";
 
 import { BarChart, RadioButtonsGroup } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [data, setData] = useState();
@@ -24,7 +24,7 @@ function App() {
 
   const onRadioClick = (e) => setCurrentCase(e.target.value);
 
-  const margin = { top: 90, right: 100, bottom: 80, left: 150 };
+  const margin = { top: 90, right: 100, bottom: 80, left: 100 };
 
   useEffect(() => {
     LoadAndProcess().then((d) => {
@@ -58,7 +58,7 @@ function App() {
             <h1>Loading...</h1>
           )}
         </Row>
-        <Row>
+        <Row style={{ marginTop: "30px" }}>
           <Col
             style={{ backgroundColor: "black", height: "30px" }}
             sm={12}
