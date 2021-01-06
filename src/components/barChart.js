@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import React, { useEffect, useRef, useState } from "react";
 import Col from "react-bootstrap/Col";
 import { useMeasure } from "react-use";
+import ResizeObserver from "resize-observer-polyfill";
 import styled from "styled-components";
 
 import "./__barChart.scss";
@@ -33,6 +34,26 @@ const ForeignObject = styled.foreignObject`
   border-radius: 10px;
 `;
 
+const useResizeObserver = (ref) => {
+  const [dimensions, setDimensions] = useState(null);
+
+  useEffect(() => {
+    const observeTarget = ref.current;
+    const resizeObserver = new ResizeObserver((entries) => {
+      console.log(entries);
+      entries.forEach((entry) => {
+        setDimensions(entry.contentRect);
+      });
+    });
+
+    resizeObserver.observe(observeTarget);
+    return () => {
+      resizeObserver.unobserver(observeTarget);
+    };
+  }, [ref]);
+  return dimensions;
+};
+
 const BarChart = ({
   // svgWidth,
   // svgHeight,
@@ -45,17 +66,24 @@ const BarChart = ({
   let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
   let [indexOfBar, setIndexOfBar] = useState(0);
+  const wrapperRef = useRef();
+  const dimensions = useResizeObserver(wrapperRef);
+  const width = dimensions.width;
+  const height = dimensions.height;
+  const x = dimensions.width;
+  const y = dimensions.height;
 
   // const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
+
   currentValue = currentCase;
 
   console.log(currentValue);
 
-  useEffect(() => draw(), [globalArr]);
+  useEffect(() => draw(), [globalArr, dimensions]);
 
   // const width = svgWidth;
   // const height = svgHeight;
@@ -198,7 +226,7 @@ const BarChart = ({
   ));
 
   return (
-    <Col sm={12} lg={6} ref={ref}>
+    <Col sm={12} lg={6} ref={wrapperRef}>
       <svg ref={svgRef} height={height} width={height}>
         <h1> COVID Cases</h1>
         <g transform={`translate(${x}, ${y})`}>

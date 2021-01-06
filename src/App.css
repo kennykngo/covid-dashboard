@@ -40,3 +40,9 @@
 text.tooltip {
   background-color: blue;
 }
+
+svg {
+  max-width: 960;
+  width: 100%;
+  max-height: 500;
+}

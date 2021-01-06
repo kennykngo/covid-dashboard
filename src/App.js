@@ -37,6 +37,7 @@ function App() {
         setCurrentCase={onRadioClick}
         globalCaseArr={globalCaseArr}
       />
+      ≠
       <Container>
         <Row>
           {/* <Col sm={12} lg={6} ref={svgRef}> */}
