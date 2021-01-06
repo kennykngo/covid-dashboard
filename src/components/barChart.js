@@ -34,56 +34,46 @@ const ForeignObject = styled.foreignObject`
   border-radius: 10px;
 `;
 
-const useResizeObserver = (ref) => {
-  const [dimensions, setDimensions] = useState(null);
-
-  useEffect(() => {
-    const observeTarget = ref.current;
-    const resizeObserver = new ResizeObserver((entries) => {
-      console.log(entries);
-      entries.forEach((entry) => {
-        setDimensions(entry.contentRect);
-      });
-    });
-
-    resizeObserver.observe(observeTarget);
-    return () => {
-      resizeObserver.unobserver(observeTarget);
-    };
-  }, [ref]);
-  return dimensions;
-};
-
 const BarChart = ({
   // svgWidth,
   // svgHeight,
   currentCase,
   margin,
   props,
-  // x,
-  // y,
+  x,
+  y,
 }) => {
   let [selectedBar, setSelectedBar] = useState();
   let [tooltip, setTooltip] = useState(false);
   let [indexOfBar, setIndexOfBar] = useState(0);
-  const wrapperRef = useRef();
-  const dimensions = useResizeObserver(wrapperRef);
-  const width = dimensions.width;
-  const height = dimensions.height;
-  const x = dimensions.width;
-  const y = dimensions.height;
 
-  // const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
+  const [
+    ref,
+    {
+      // x,
+      // y,
+      width,
+      // height
+      top,
+      right,
+      bottom,
+      left,
+    },
+  ] = useMeasure();
+
   // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
-
   currentValue = currentCase;
 
   console.log(currentValue);
 
-  useEffect(() => draw(), [globalArr, dimensions]);
+  useEffect(() => draw(), [globalArr]);
+  //
+  // const ref = useRef();
+  // const width = "100%";
+  const height = 500;
 
   // const width = svgWidth;
   // const height = svgHeight;
@@ -184,9 +174,9 @@ const BarChart = ({
       .selectAll("rect")
       .data(globalArr)
       .attr("opacity", (d) => (!tooltip || d === tooltip ? 1 : 0.5))
-      .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
-      .transition()
-      .duration(250);
+      .attr("x", (d, i) => (i * innerWidth) / globalArr.length);
+    // .transition()
+    // .duration(250);
 
     gEnter
       .append("text")
@@ -226,10 +216,10 @@ const BarChart = ({
   ));
 
   return (
-    <Col sm={12} lg={6} ref={wrapperRef}>
+    <Col sm={12} lg={6} ref={ref}>
       <svg ref={svgRef} height={height} width={height}>
         <h1> COVID Cases</h1>
-        <g transform={`translate(${x}, ${y})`}>
+        <g transform={`translate(${margin.left}, ${margin.top})`}>
           {bars}
           {tooltip && (
             <Tooltip

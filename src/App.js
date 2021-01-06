@@ -3,6 +3,8 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // import { BarChart, RadioButtonsGroup } from "react-use";
 
 import { BarChart, RadioButtonsGroup } from "./components";
@@ -37,7 +39,6 @@ function App() {
         setCurrentCase={onRadioClick}
         globalCaseArr={globalCaseArr}
       />
-      ≠
       <Container>
         <Row>
           {/* <Col sm={12} lg={6} ref={svgRef}> */}
@@ -56,7 +57,18 @@ function App() {
           ) : (
             <h1>Loading...</h1>
           )}
-          <Col xs={12} lg={6}></Col>
+        </Row>
+        <Row>
+          <Col
+            style={{ backgroundColor: "black", height: "30px" }}
+            sm={12}
+            lg={6}
+          ></Col>
+          <Col
+            style={{ backgroundColor: "red", height: "30px" }}
+            sm={12}
+            lg={6}
+          ></Col>
         </Row>
       </Container>
     </div>
