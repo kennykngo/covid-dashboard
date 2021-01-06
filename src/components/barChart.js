@@ -231,10 +231,9 @@ const BarChart = ({
             <Tooltip
               // x={xScale(xValue(tooltip))}
               x={
-                indexOfBar > 80
+                indexOfBar > 73
                   ? (indexOfBar * innerWidth) / globalArr.length -
-                    margin.left -
-                    margin.right
+                    margin.left * 2.5
                   : (indexOfBar * innerWidth) / globalArr.length
               }
               y={yScale(yValue(tooltip)) - margin.top}
