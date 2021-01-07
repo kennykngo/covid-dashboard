@@ -11,8 +11,15 @@ export default function RadioButtonsGroup({
   globalCaseArr,
 }) {
   return (
-    <FormControl component="fieldset">
-      <FormLabel component="legend">Global COVID Update</FormLabel>
+    <FormControl
+      component="fieldset"
+      style={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "row",
+      }}
+    >
       <RadioGroup
         aria-label="covid-update"
         name="covid-update"
