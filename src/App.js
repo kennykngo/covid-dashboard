@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div className="App" style={{ height: "100vh" }}>
       <Container>
         <Row className="pt-5">
           <Col>
