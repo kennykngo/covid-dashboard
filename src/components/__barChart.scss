@@ -22,9 +22,14 @@
 
 .title {
   font-size: 2rem;
+  color: #333;
 }
 
 svg {
   max-width: 960;
   max-height: 500;
+}
+
+foreignObject div p {
+  font-size: 0.7rem;
 }
