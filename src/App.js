@@ -34,8 +34,8 @@ function App() {
 
   return (
     <div className="App">
-      <Container className="mt-5">
-        <Row>
+      <Container>
+        <Row className="pt-5">
           <Col>
             <RadioButtonsGroup
               selectedCase={currentCase}
