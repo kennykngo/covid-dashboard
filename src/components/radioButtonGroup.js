@@ -5,6 +5,8 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import React from "react";
 
+import "./__radioButtonGroup.scss";
+
 export default function RadioButtonsGroup({
   selectedCase,
   setCurrentCase,

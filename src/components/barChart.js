@@ -21,7 +21,7 @@ const yValue = (d) =>
 const Tooltip = ({ x, y, data, style }) => (
   <ForeignObject x={x} y={y} width={100} height={50} style={style}>
     <div>
-      {console.log(y)}
+      {/* {console.log(y)} */}
       <h6>{data.date}</h6>
       <p> {d3.format(",")(yValue(data))}</p>
     </div>
@@ -60,13 +60,10 @@ const BarChart = ({
     },
   ] = useMeasure();
 
-  // console.log(props);
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
   const globalArr = worldArr.slice(0, 90).reverse();
   currentValue = currentCase;
-
-  console.log(currentValue);
 
   useEffect(() => draw(), [globalArr]);
 
@@ -75,8 +72,6 @@ const BarChart = ({
 
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
-
-  console.log(ref);
 
   // const xScale = d3
   //   .scaleTime()
@@ -180,7 +175,10 @@ const BarChart = ({
 
     gEnter
       .append("text")
-      .attr("transform", `translate(${width / 2}, 0)`)
+      .attr(
+        "transform",
+        `translate(${width / 2}, ${-margin.top + margin.bottom / 2})`
+      )
       .attr("class", "title")
       .text("Global COVID Cases");
 
@@ -218,19 +216,22 @@ const BarChart = ({
   return (
     <Col className="d-flex" ref={ref}>
       <svg ref={svgRef} height={height} width={width} id="svg-id">
-        <h1> COVID Cases</h1>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {bars}
           {tooltip && (
             <Tooltip
               // x={xScale(xValue(tooltip))}
               x={
-                indexOfBar > 73
+                indexOfBar > 63
                   ? (indexOfBar * innerWidth) / globalArr.length -
-                    margin.left * 2.5
+                    margin.left * 3.5
                   : (indexOfBar * innerWidth) / globalArr.length
               }
-              y={yScale(yValue(tooltip)) - margin.top}
+              y={
+                width < 420 && indexOfBar > 50
+                  ? yScale(yValue(tooltip)) + margin.top
+                  : yScale(yValue(tooltip)) - margin.top
+              }
               style={
                 currentCase === "total cases"
                   ? { backgroundColor: "steelblue" }
@@ -249,49 +250,3 @@ const BarChart = ({
 };
 
 export default BarChart;
-
-// rectBars
-//   .attr("x", (d, i) => (i * innerWidth) / globalArr.length)
-//   .attr("y", (d) => yScale(yValue(d)))
-//   .attr("width", (d, i) => innerWidth / globalArr.length)
-//   .attr("height", (d) => innerHeight - yScale(yValue(d)))
-//   .attr("class", "rectBars")
-//   .attr("opacity", (d) => (!selectedBar || d === selectedBar ? 1 : 0.5));
-// // .transition()
-
-// gEnter
-//   .selectAll(".rectBars")
-//   .on("mouseenter", function (e, value) {
-//     const index = svg.selectAll("rect").nodes().indexOf(this);
-//     onClick(value);
-
-//     // console.log(this);
-//     // d3.select(this)
-//     //   .transition()
-//     //   .duration(350)
-//     //   .attr("opacity", (d) => (d === selectedBar ? 1 : 0.5));
-//     d3.selectAll("rect")
-//       .transition()
-//       .duration(50)
-//       .attr("opacity", (d) =>
-//         !selectedBar || d === selectedBar ? 1 : 0.5
-//       );
-
-//     // setSelectedBar((selectedBar = value));
-//     console.log(selectedBar);
-
-//     gEnter
-//       .selectAll(".tooltip")
-//       .data([value])
-//       .join((enter) => enter.append("text").attr("y", yScale(value)))
-//       .text(`${value.date}\n ${value.totalCases}`)
-//       .attr("class", "tooltip")
-//       .attr("x", () => (index * innerWidth) / globalArr.length)
-//       .attr("y", yScale(yValue(value)) - 12)
-//       .attr("text-anchor", "middle");
-//     // .attr("opacity", 0.5)
-//     // .style("background-color", "red");
-//   })
-//   .on("mouseleave", () => {
-//     svg.select(".tooltip").remove();
-//   });
