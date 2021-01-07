@@ -69,27 +69,22 @@ const BarChart = ({
   console.log(currentValue);
 
   useEffect(() => draw(), [globalArr]);
-  //
-  // const ref = useRef();
-  // const width = "100%";
+
   console.log(width);
   const height = 500;
-
-  // const width = svgWidth;
-  // const height = svgHeight;
 
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
   console.log(ref);
 
-  const xScale = d3
-    .scaleTime()
-    .domain([
-      new Date(globalArr[0].date),
-      new Date(globalArr[globalArr.length - 1].date),
-    ])
-    .range([0, width]);
+  // const xScale = d3
+  //   .scaleTime()
+  //   .domain([
+  //     new Date(globalArr[0].date),
+  //     new Date(globalArr[globalArr.length - 1].date),
+  //   ])
+  //   .range([0, width]);
   // .range([0, innerWidth]);
 
   const yScale = d3
@@ -108,7 +103,6 @@ const BarChart = ({
         new Date(globalArr[globalArr.length - 1].date),
       ])
       .range([0, innerWidth]);
-    // .range([0, innerWidth]);
 
     const yScale = d3
       .scaleLinear()
@@ -186,7 +180,7 @@ const BarChart = ({
 
     gEnter
       .append("text")
-      .attr("transform", `translate(${innerWidth / 2}, 0)`)
+      .attr("transform", `translate(${width / 2}, 0)`)
       .attr("class", "title")
       .text("Total Cases");
 
@@ -222,8 +216,8 @@ const BarChart = ({
   ));
 
   return (
-    <Col sm={12} md={8} ref={ref}>
-      <svg ref={svgRef} height={height} width={width}>
+    <Col className="d-flex" ref={ref}>
+      <svg ref={svgRef} height={height} width={width} id="svg-id">
         <h1> COVID Cases</h1>
         <g transform={`translate(${margin.left}, ${margin.top})`}>
           {bars}

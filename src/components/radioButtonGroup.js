@@ -19,6 +19,7 @@ export default function RadioButtonsGroup({
         value={selectedCase}
         onChange={setCurrentCase}
         onClick={console.log(selectedCase)}
+        className="d-flex"
       >
         {globalCaseArr.map((d) => (
           <FormControlLabel value={d} control={<Radio />} label={d} />
