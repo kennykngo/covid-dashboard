@@ -18,6 +18,8 @@ export default function RadioButtonsGroup({
         display: "flex",
         justifyContent: "center",
         flexDirection: "row",
+        backgroundColor: "white",
+        borderRadius: "15px 15px 0 0",
       }}
     >
       <RadioGroup

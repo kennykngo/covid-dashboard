@@ -34,12 +34,16 @@ function App() {
 
   return (
     <div className="App">
-      <RadioButtonsGroup
-        selectedCase={currentCase}
-        setCurrentCase={onRadioClick}
-        globalCaseArr={globalCaseArr}
-      />
-      <Container>
+      <Container className="mt-5">
+        <Row>
+          <Col>
+            <RadioButtonsGroup
+              selectedCase={currentCase}
+              setCurrentCase={onRadioClick}
+              globalCaseArr={globalCaseArr}
+            />
+          </Col>
+        </Row>
         <Row>
           {/* <Col sm={12} lg={6} ref={svgRef}> */}
           {data ? (
