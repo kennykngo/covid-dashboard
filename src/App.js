@@ -24,7 +24,7 @@ function App() {
 
   const onRadioClick = (e) => setCurrentCase(e.target.value);
 
-  const margin = { top: 90, right: 30, bottom: 80, left: 30 };
+  const margin = { top: 90, right: 50, bottom: 80, left: 30 };
 
   useEffect(() => {
     LoadAndProcess().then((d) => {

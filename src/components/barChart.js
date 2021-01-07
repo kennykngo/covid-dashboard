@@ -179,7 +179,7 @@ const BarChart = ({
         "transform",
         `translate(${width / 2}, ${-margin.top + margin.bottom / 2})`
       )
-      .attr("class", "title")
+      .attr("class", "chart-title")
       .text("Global COVID Cases");
 
     // svg
