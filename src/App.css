@@ -14,9 +14,9 @@
 }
 
 /* targets the svg's parent container  */
-.col-md-8.col-12 .row .d-flex.col {
+/* .col-md-8.col-12 .row .d-flex.col {
   background-color: #ffffff;
-}
+} */
 
 @media (min-width: 768px) {
   .container {

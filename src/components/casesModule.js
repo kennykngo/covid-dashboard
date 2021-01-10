@@ -9,8 +9,8 @@ export default function CasesModule({ data }) {
 
   return (
     <Row>
-      <CasesInfo title="Confirmed" />
-      <CasesInfo title="Deaths" />
+      <CasesInfo title="Confirmed" addition={293} />
+      <CasesInfo title="Deaths" addition={-293} />
     </Row>
   );
 }
