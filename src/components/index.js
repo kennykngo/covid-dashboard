@@ -1,5 +1,7 @@
 import BarChart from "./barChart";
-import RadioButtonsGroup from "./radioButtonGroup";
+import CasesInfo from "./casesInfo";
+import CasesModule from "./casesModule";
 import PopperTip from "./popper";
+import RadioButtonsGroup from "./radioButtonGroup";
 
-export { BarChart, PopperTip, RadioButtonsGroup };
+export { BarChart, PopperTip, RadioButtonsGroup, CasesInfo, CasesModule };

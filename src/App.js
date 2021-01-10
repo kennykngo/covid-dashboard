@@ -3,9 +3,9 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 
-// import { BarChart, RadioButtonsGroup } from "react-use";
+// import { BarChart, CasesModule, RadioButtonsGroup } from "react-use";
 
-import { BarChart, RadioButtonsGroup } from "./components";
+import { BarChart, RadioButtonsGroup, CasesModule } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,10 +17,10 @@ function App() {
   const globalCaseArr = ["total cases", "total deaths"];
   // const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
-  const onMouseOver = (d) => {
-    return setSelectedBar((selectedBar = d));
-    console.log("worky");
-  };
+  // const onMouseOver = (d) => {
+  //   return setSelectedBar((selectedBar = d));
+  //   console.log("worky");
+  // };
 
   const onRadioClick = (e) => setCurrentCase(e.target.value);
 
@@ -36,32 +36,36 @@ function App() {
     <div className="App" style={{ height: "100vh" }}>
       <Container>
         <Row className="pt-5">
+          {data ? (
+            <Col>
+              <Row>
+                <RadioButtonsGroup
+                  selectedCase={currentCase}
+                  setCurrentCase={onRadioClick}
+                  globalCaseArr={globalCaseArr}
+                />
+                <BarChart
+                  currentCase={currentCase}
+                  // svgWidth={width}
+                  // svgHeight={heigh}
+                  // selectedRectBar={selectedBar}
+                  margin={margin}
+                  // onMouse={onMouseOver}
+                  props={data}
+                  x={margin.left}
+                  y={margin.top}
+                />
+              </Row>
+            </Col>
+          ) : (
+            <h1> Loading... </h1>
+          )}
+
           <Col>
-            <RadioButtonsGroup
-              selectedCase={currentCase}
-              setCurrentCase={onRadioClick}
-              globalCaseArr={globalCaseArr}
-            />
+            <CasesModule />
           </Col>
         </Row>
-        <Row>
-          {/* <Col sm={12} lg={6} ref={svgRef}> */}
-          {data ? (
-            <BarChart
-              currentCase={currentCase}
-              // svgWidth={width}
-              // svgHeight={heigh}
-              // selectedRectBar={selectedBar}
-              margin={margin}
-              // onMouse={onMouseOver}
-              props={data}
-              x={margin.left}
-              y={margin.top}
-            />
-          ) : (
-            <h1>Loading...</h1>
-          )}
-        </Row>
+
         <Row style={{ marginTop: "30px" }}>
           <Col
             style={{ backgroundColor: "black", height: "30px" }}

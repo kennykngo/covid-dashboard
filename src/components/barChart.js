@@ -35,7 +35,7 @@ const ForeignObject = styled.foreignObject`
 `;
 
 const BarChart = ({
-  // svgWidth,
+  svgWidth,
   // svgHeight,
   currentCase,
   margin,
@@ -46,19 +46,7 @@ const BarChart = ({
   let [tooltip, setTooltip] = useState(false);
   let [indexOfBar, setIndexOfBar] = useState(0);
 
-  const [
-    ref,
-    {
-      // x,
-      // y,
-      width,
-      // height
-      top,
-      right,
-      bottom,
-      left,
-    },
-  ] = useMeasure();
+  const [ref, { width }] = useMeasure();
 
   const svgRef = useRef(null);
   const { worldArr, statesArr } = props;
