@@ -64,7 +64,7 @@ function App() {
             <h1> Loading... </h1>
           )}
 
-          <Col>
+          <Col md={4}>
             <CasesModule />
           </Col>
         </Row>
