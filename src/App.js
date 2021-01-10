@@ -63,10 +63,13 @@ function App() {
           ) : (
             <h1> Loading... </h1>
           )}
-
-          <Col md={4}>
-            <CasesModule />
-          </Col>
+          {data ? (
+            <Col md={4}>
+              <CasesModule data={data} />
+            </Col>
+          ) : (
+            <h1>Loading cases...</h1>
+          )}
         </Row>
 
         <Row style={{ marginTop: "30px" }}>

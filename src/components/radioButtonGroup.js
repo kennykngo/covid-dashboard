@@ -33,7 +33,7 @@ export default function RadioButtonsGroup({
         row
       >
         {globalCaseArr.map((d) => (
-          <FormControlLabel value={d} control={<Radio />} label={d} />
+          <FormControlLabel value={d} control={<Radio />} label={d} key={d} />
         ))}
         {/* <FormControlLabel value="female" control={<Radio />} label="Female" />
         <FormControlLabel value="male" control={<Radio />} label="Male" /> */}
