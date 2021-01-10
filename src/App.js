@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 
 // import { BarChart, CasesModule, RadioButtonsGroup } from "react-use";
 
+// import { BarChart, CasesModule, RadioButtonsGroup } from "react-use";
+
 import { BarChart, RadioButtonsGroup, CasesModule } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
 
@@ -15,6 +17,7 @@ function App() {
   var [selectedBar, setSelectedBar] = useState();
   let [currentCase, setCurrentCase] = useState("total cases");
   const globalCaseArr = ["total cases", "total deaths"];
+  // const [ref, { width }] = useMeasure();
   // const [ref, { x, y, width, height, top, right, bottom, left }] = useMeasure();
 
   // const onMouseOver = (d) => {
@@ -37,7 +40,7 @@ function App() {
       <Container>
         <Row className="pt-5">
           {data ? (
-            <Col>
+            <Col md={8} xs={12}>
               <Row>
                 <RadioButtonsGroup
                   selectedCase={currentCase}

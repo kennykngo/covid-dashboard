@@ -7,6 +7,10 @@
   color: #fff;
 }
 
+.col.d-flex {
+  background-color: #ffffff;
+}
+
 .tick line {
   stroke: #c0c0bb;
   stroke-width: 0.03rem;
@@ -26,7 +30,6 @@
 }
 
 .d-flex #svg-id {
-  background-color: white;
   border-radius: 0 0 15px 15px;
 }
 
