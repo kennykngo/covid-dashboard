@@ -13,12 +13,14 @@ import styled from "styled-components";
 //   height: 184px;
 // `;
 
-export default function CasesModule({ data }) {
+export default function CasesModule({ data, date }) {
   return (
     <Row>
-      <CasesInfo title="Confirmed" addition={293} />
-      <CasesInfo title="Deaths" addition={-293} />
-      <CasesInfo title="Recovered" addition={-293} />
+      <div>Name</div>
+      <div> Last Updated: {date}</div>
+      <CasesInfo title="Confirmed" addition={293} cases={"29,000"} />
+      <CasesInfo title="Deaths" addition={-293} cases={29000} />
+      <CasesInfo title="Recovered" addition={-293} cases={29000} />
     </Row>
   );
 }

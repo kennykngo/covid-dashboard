@@ -5,10 +5,11 @@ export default function CasesRoot({ data }) {
   const { worldArr, statesArr } = data;
 
   console.log(worldArr);
+  const date = worldArr[0].date;
 
   return (
     <div>
-      <CasesModule data={data} />
+      <CasesModule date={date} data={data} />
     </div>
   );
 }

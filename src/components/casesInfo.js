@@ -13,13 +13,13 @@ const P = styled.p`
   font-size: 13px;
 `;
 
-const CasesInfo = ({ title, addition }) => {
+const CasesInfo = ({ title, addition, cases }) => {
   return (
     <Col className="cases-info-row">
       <Row className="d-flex justify-content-center">
         <div className="p-3 d-flex justify-content-center flex-column">
           <P> {title}</P>
-          <div className="d-block text-center">26,000</div>
+          <div className="d-block text-center">{!cases ? "-" : cases}</div>
           <div className="text-center">
             <div className="bg-dark text-white d-inline py-1 px-2 rounded c-footnote">
               {addition > 0 ? "+" + addition : addition}
