@@ -9,7 +9,7 @@ export default function CasesRoot({ data }) {
   const globalDate = worldArr[0].date;
 
   return (
-    <div>
+    <div className="d-inline">
       <CasesModule title={"Global COVID Cases"} date={globalDate} data={data} />
     </div>
   );

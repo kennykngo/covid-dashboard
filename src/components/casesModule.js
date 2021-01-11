@@ -4,6 +4,7 @@ import Row from "react-bootstrap/Row";
 
 import CasesInfo from "./casesInfo";
 import "./__casesStyles.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import styled from "styled-components";
 
@@ -15,7 +16,7 @@ import styled from "styled-components";
 
 export default function CasesModule({ title, data, date }) {
   return (
-    <Row>
+    <Row className="cases-module-style pb-3 bg-white">
       <div className="mb-2">
         <div>{title}</div>
         <div> Last Updated: {date}</div>

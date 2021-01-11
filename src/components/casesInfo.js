@@ -15,9 +15,9 @@ const P = styled.p`
 
 const CasesInfo = ({ title, addition, cases }) => {
   return (
-    <Col className="cases-info-row">
-      <Row className="d-flex justify-content-center">
-        <div className="p-3 d-flex justify-content-center flex-column">
+    <Col xs={4} className="cases-info-row">
+      <Row className="d-flex pb justify-content-center">
+        <div className="px-3 d-flex justify-content-center flex-column ">
           <P> {title}</P>
           <div className="d-block text-center">{!cases ? "-" : cases}</div>
           <div className="text-center">
