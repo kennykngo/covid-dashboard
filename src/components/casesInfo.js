@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 import "./__casesStyles.scss";
 import styled from "styled-components";
 
+import * as d3 from "d3";
+
 const P = styled.p`
   text-align: center;
   display: inline-block;
@@ -13,16 +15,22 @@ const P = styled.p`
   font-size: 13px;
 `;
 
+const commaInsertion = (num) => d3.format(",")(num);
+
 const CasesInfo = ({ title, addition, cases }) => {
   return (
     <Col xs={4} className="cases-info-row">
       <Row className="d-flex pb justify-content-center">
         <div className="px-3 d-flex justify-content-center flex-column ">
           <P> {title}</P>
-          <div className="d-block text-center">{!cases ? "-" : cases}</div>
+          <div className="d-block text-center">
+            {!cases ? "-" : commaInsertion(cases)}
+          </div>
           <div className="text-center">
             <div className="bg-dark text-white d-inline py-1 px-2 rounded c-footnote">
-              {addition > 0 ? "+" + addition : addition}
+              {addition > 0
+                ? "+" + commaInsertion(addition)
+                : "-" + commaInsertion(addition)}
             </div>
           </div>
         </div>
