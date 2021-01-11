@@ -19,7 +19,7 @@ export default function CasesModule({ title, data, date }) {
     <Row className="cases-module-style pb-3 bg-white">
       <div className="mb-2">
         <div>{title}</div>
-        <div> Last Updated: {date}</div>
+        <div className="c-date"> Last Updated: {date}</div>
       </div>
 
       <CasesInfo title="Confirmed" addition={293} cases={"29,000"} />
