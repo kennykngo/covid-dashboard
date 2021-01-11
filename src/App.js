@@ -40,7 +40,7 @@ function App() {
       <Container>
         <Row className="pt-5">
           {data ? (
-            <Col md={8} xs={12}>
+            <Col md={7} xs={12}>
               <Row>
                 <RadioButtonsGroup
                   selectedCase={currentCase}
@@ -64,7 +64,7 @@ function App() {
             <h1> Loading... </h1>
           )}
           {data ? (
-            <Col md={4}>
+            <Col md={{ span: 4, offset: 1 }}>
               <CasesModule data={data} />
             </Col>
           ) : (
