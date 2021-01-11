@@ -18,6 +18,18 @@ const P = styled.p`
 const commaInsertion = (num) => d3.format(",")(num);
 
 const CasesInfo = ({ title, changes, cases }) => {
+  const changesFootnote = () => {
+    return (
+      <div className="bg-dark text-white d-inline py-1 px-2 rounded c-footnote">
+        {changes > 0
+          ? "+" + commaInsertion(changes)
+          : changes === 0
+          ? "-"
+          : "-" + commaInsertion(changes)}
+      </div>
+    );
+  };
+
   return (
     <Col xs={4} className="cases-info-row">
       <Row className="d-flex pb justify-content-center">
@@ -26,13 +38,7 @@ const CasesInfo = ({ title, changes, cases }) => {
           <div className="d-block text-center">
             {!cases ? "-" : commaInsertion(cases)}
           </div>
-          <div className="text-center">
-            <div className="bg-dark text-white d-inline py-1 px-2 rounded c-footnote">
-              {changes > 0
-                ? "+" + commaInsertion(changes)
-                : "-" + commaInsertion(changes)}
-            </div>
-          </div>
+          <div className="text-center">{changesFootnote()}</div>
         </div>
       </Row>
     </Col>
