@@ -2,10 +2,12 @@
 import * as d3 from "d3";
 import statesName from "./states";
 
-const formatDate = d3.timeFormat("%x, %X");
+const formatDateTime = d3.timeFormat("%x, %X");
+const formatDate = d3.timeFormat("%x");
 const formatDay = d3.timeFormat("%j");
 
 const processData = (worldData, statesData) => {
+  const dateTimeParse = (d) => formatDateTime(new Date(d));
   const dateParse = (d) => formatDate(new Date(d));
   // const dateParse = (d) => formatDate(new Date(d));
 
@@ -18,14 +20,14 @@ const processData = (worldData, statesData) => {
     const totalCases = data.total_cases;
     const totalDeaths = data.total_deaths;
     const totalRecovered = data.total_recovered;
-    // const covidDate = data.last_update;
+    const covidDate = dateTimeParse(data.last_update);
 
     let row = {
       date,
       totalCases,
       totalDeaths,
       totalRecovered,
-      // covidDate,
+      covidDate,
     };
 
     worldArr.push(row);

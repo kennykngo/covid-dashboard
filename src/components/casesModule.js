@@ -1,6 +1,7 @@
 import React from "react";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import * as d3 from "d3";
 
 import CasesInfo from "./casesInfo";
 import "./__casesStyles.scss";
@@ -8,23 +9,35 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import styled from "styled-components";
 
-// const Span = styled.span`
-//   border-left: 1px solid black;
-//   display: inline-block;
-//   height: 184px;
-// `;
+const commaInsertion = (num) => d3.format(",")(num);
 
 export default function CasesModule({ title, data, date }) {
+  console.log(data);
+
   return (
-    <Row className="cases-module-style pt-3 pl-3 pb-3 bg-white">
+    <Row className="cases-module-style pt-3 px-2 pb-3 bg-white">
       <div className="mb-2">
         <div>{title}</div>
         <div className="c-date"> Last Updated: {date}</div>
       </div>
 
-      <CasesInfo title="Confirmed" addition={293} cases={"29,000"} />
-      <CasesInfo title="Deaths" addition={-293} cases={29000} />
-      <CasesInfo title="Recovered" addition={-293} cases={29000} />
+      <CasesInfo
+        title="Confirmed"
+        addition={commaInsertion(data[0].totalCases - data[1].totalCases)}
+        cases={commaInsertion(data[0].totalCases)}
+      />
+      <CasesInfo
+        title="Deaths"
+        addition={commaInsertion(data[0].totalDeaths - data[1].totalDeaths)}
+        cases={commaInsertion(data[0].totalDeaths)}
+      />
+      <CasesInfo
+        title="Recovered"
+        addition={commaInsertion(
+          data[0].totalRecovered - data[1].totalRecovered
+        )}
+        cases={commaInsertion(data[0].totalRecovered)}
+      />
     </Row>
   );
 }
