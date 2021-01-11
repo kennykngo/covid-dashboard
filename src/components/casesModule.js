@@ -16,7 +16,7 @@ import styled from "styled-components";
 
 export default function CasesModule({ title, data, date }) {
   return (
-    <Row className="cases-module-style pb-3 bg-white">
+    <Row className="cases-module-style pt-3 pl-3 pb-3 bg-white">
       <div className="mb-2">
         <div>{title}</div>
         <div className="c-date"> Last Updated: {date}</div>
