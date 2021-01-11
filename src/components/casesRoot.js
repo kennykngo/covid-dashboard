@@ -6,12 +6,11 @@ export default function CasesRoot({ data }) {
   const { worldArr, statesArr } = data;
 
   console.log(worldArr);
-  const date = worldArr[0].date;
-  console.log(d3.time);
+  const globalDate = worldArr[0].date;
 
   return (
     <div>
-      <CasesModule date={date} data={data} />
+      <CasesModule title={"Global COVID Cases"} date={globalDate} data={data} />
     </div>
   );
 }

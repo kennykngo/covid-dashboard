@@ -13,11 +13,14 @@ import styled from "styled-components";
 //   height: 184px;
 // `;
 
-export default function CasesModule({ data, date }) {
+export default function CasesModule({ title, data, date }) {
   return (
     <Row>
-      <div>Name</div>
-      <div> Last Updated: {date}</div>
+      <div className="mb-2">
+        <div>{title}</div>
+        <div> Last Updated: {date}</div>
+      </div>
+
       <CasesInfo title="Confirmed" addition={293} cases={"29,000"} />
       <CasesInfo title="Deaths" addition={-293} cases={29000} />
       <CasesInfo title="Recovered" addition={-293} cases={29000} />
