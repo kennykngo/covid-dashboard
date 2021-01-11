@@ -13,6 +13,7 @@ const processData = (worldData, statesData) => {
 
   // console.log(worldData);
   // console.log(new Date(dateParse(worldData[0].last_update)));
+  console.log(statesData);
 
   const worldArr = [];
   worldData.forEach((data) => {

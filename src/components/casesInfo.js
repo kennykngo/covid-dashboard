@@ -17,7 +17,7 @@ const P = styled.p`
 
 const commaInsertion = (num) => d3.format(",")(num);
 
-const CasesInfo = ({ title, addition, cases }) => {
+const CasesInfo = ({ title, changes, cases }) => {
   return (
     <Col xs={4} className="cases-info-row">
       <Row className="d-flex pb justify-content-center">
@@ -28,9 +28,9 @@ const CasesInfo = ({ title, addition, cases }) => {
           </div>
           <div className="text-center">
             <div className="bg-dark text-white d-inline py-1 px-2 rounded c-footnote">
-              {addition > 0
-                ? "+" + commaInsertion(addition)
-                : "-" + commaInsertion(addition)}
+              {changes > 0
+                ? "+" + commaInsertion(changes)
+                : "-" + commaInsertion(changes)}
             </div>
           </div>
         </div>

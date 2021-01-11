@@ -18,6 +18,11 @@ export default function CasesRoot({ data }) {
         date={globalDate}
         data={globalCases}
       />
+      <CasesModule
+        title={"Global COVID Cases"}
+        date={globalDate}
+        data={globalCases}
+      />
     </div>
   );
 }
