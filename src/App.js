@@ -7,7 +7,7 @@ import Row from "react-bootstrap/Row";
 
 // import { BarChart, CasesModule, RadioButtonsGroup } from "react-use";
 
-import { BarChart, RadioButtonsGroup, CasesModule } from "./components";
+import { BarChart, RadioButtonsGroup, CasesRoot } from "./components";
 import { LoadAndProcess } from "./loadAndProcess";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -65,7 +65,7 @@ function App() {
           )}
           {data ? (
             <Col md={{ span: 4, offset: 1 }}>
-              <CasesModule data={data} />
+              <CasesRoot data={data} />
             </Col>
           ) : (
             <h1>Loading cases...</h1>

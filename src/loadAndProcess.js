@@ -8,7 +8,7 @@ const formatDay = d3.timeFormat("%j");
 const processData = (worldData, statesData) => {
   const dateParse = (d) => formatDate(new Date(d));
 
-  console.log(worldData);
+  // console.log(worldData);
   // console.log(new Date(dateParse(worldData[0].last_update)));
 
   const worldArr = [];

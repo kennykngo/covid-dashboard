@@ -14,12 +14,11 @@ import styled from "styled-components";
 // `;
 
 export default function CasesModule({ data }) {
-  console.log(data);
-
   return (
     <Row>
       <CasesInfo title="Confirmed" addition={293} />
       <CasesInfo title="Deaths" addition={-293} />
+      <CasesInfo title="Recovered" addition={-293} />
     </Row>
   );
 }
